@@ -1,6 +1,6 @@
 ﻿namespace TestProjectForDCT.Models.HackerearthModels;
 
-class PostCodeEvaluationModel
+public class PostCodeEvaluationModel
 {
     public string lang { get; set; }
     public string source { get; set; }        

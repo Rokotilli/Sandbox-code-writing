@@ -5,7 +5,7 @@ using TestProjectForDCT.Models.HackerearthModels;
 
 namespace TestProjectForDCT.ViewModels;
 
-class CodeEvaluationService
+public class CodeEvaluationService
 {
     private readonly HttpClient httpClient;
 

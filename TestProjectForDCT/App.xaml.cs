@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using TestProjectForDCT.ViewModels;
+using TestProjectForDCT.Views;
 
 namespace TestProjectForDCT;
 
@@ -14,6 +15,14 @@ public partial class App : Application
     public App()
     {
         host = InitialHost();
+    }
+
+    protected override void OnStartup(StartupEventArgs e)
+    {
+        base.OnStartup(e);
+        var mainWindow = host.Services.GetRequiredService<MainWindow>();
+
+        mainWindow.Show();
     }
 
     public IHost InitialHost()
@@ -36,6 +45,13 @@ public partial class App : Application
                     client.BaseAddress = new Uri(config.hackerearthAPIUrl);
                     client.DefaultRequestHeaders.Add("client-secret", config.client_secret);
                 });
+
+                services.AddTransient<MainWindow>();
+                services.AddTransient<MainWindowViewModel>();
+                services.AddTransient<HomeViewModel>();
+                services.AddTransient<SandBoxViewModel>();
+                services.AddTransient<HomeView>();
+                services.AddTransient<SandBoxView>();
 
                 services.AddScoped<CodeEvaluationService>();
             })
