@@ -1,4 +1,4 @@
-﻿namespace TestProjectForDCT;
+namespace TestProjectForDCT;
 
 public class Config
 {

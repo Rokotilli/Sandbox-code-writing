@@ -1,4 +1,4 @@
-﻿namespace TestProjectForDCT.Models.HackerearthModels;
+namespace TestProjectForDCT.Models.HackerearthModels;
 
 public class PostCodeEvaluationModel
 {

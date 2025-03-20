@@ -1,4 +1,4 @@
-﻿using TestProjectForDCT.Models.HackerearthModels.GenericModels;
+using TestProjectForDCT.Models.HackerearthModels.GenericModels;
 
 namespace TestProjectForDCT.Models.HackerearthModels;
 

@@ -1,4 +1,4 @@
-﻿namespace TestProjectForDCT.Models.HackerearthModels.GenericModels;
+namespace TestProjectForDCT.Models.HackerearthModels.GenericModels;
 
 public class RequestStatus
 {
