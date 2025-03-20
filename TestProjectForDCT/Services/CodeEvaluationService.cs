@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System.Net.Http;
 using TestProjectForDCT.Helpers;
 using TestProjectForDCT.Models.HackerearthModels;
 
 namespace TestProjectForDCT.ViewModels;
 
-class CodeEvaluationService
+public class CodeEvaluationService
 {
     private readonly HttpClient httpClient;
 
