@@ -1,5 +1,7 @@
 {
   "client_secret": "",
   "hackerearthAPIUrl": "https://api.hackerearth.com/v4/partner/code-evaluation/submissions/",
-  "httpClientHackerearthAPIName": "HackerearthAPI"
+  "httpClientHackerearthAPIName": "HackerearthAPI",
+  "leetCodeAPIUrl": "https://leetcode.com/",
+  "httpClientLeetCodeAPIName": "LeetCodeAPI"
 }

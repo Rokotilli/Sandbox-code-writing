@@ -1,9 +1,11 @@
 ﻿using ICSharpCode.AvalonEdit.Highlighting;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
 using TestProjectForDCT.Models.HackerearthModels;
 using TestProjectForDCT.ViewModels.CommandHandler;
+using TestProjectForDCT.Views;
 
 namespace TestProjectForDCT.ViewModels;
 
@@ -12,11 +14,11 @@ public class SandBoxViewModel : BaseViewModel
     private readonly CodeEvaluationService _codeEvaluationService;
     private Dictionary<string, string> _languages;
     private string _codeText;
-    private string _memoryLimit;
-    private string _timeLimit;
+    private string _memoryLimit = "262144";
+    private string _timeLimit = "5";
     private string _resultText;
     private string _selectedLanguage;
-    private bool _isCheckStatusButtonEnabled;
+    private bool _isCheckStatusButtonEnabled = false;
     private IHighlightingDefinition _syntaxHighlighting;
     private string he_id;    
 
@@ -105,12 +107,14 @@ public class SandBoxViewModel : BaseViewModel
     }
 
     public ObservableCollection<string> Languages { get; } = new();
+
     public ICommand RunCodeCommand { get; set; }
     public ICommand CheckCodeEvaluationCommand { get; set; }
+    public ICommand OpenLeetCodeProblemsCommand { get; set; }
 
-    public SandBoxViewModel(CodeEvaluationService codeEvaluationService)
+    public SandBoxViewModel(CodeEvaluationService codeEvaluationService, IServiceProvider serviceProvider)
     {
-        _codeEvaluationService = codeEvaluationService;
+        _codeEvaluationService = codeEvaluationService;        
         _languages = new()
         {
             { "C", "C" },
@@ -144,13 +148,16 @@ public class SandBoxViewModel : BaseViewModel
             Languages.Add(lang.Value);
         }
 
-        SelectedLanguage = Languages.ElementAt(0);
-        _memoryLimit = "262144";
-        _timeLimit = "5";
-        IsCheckStatusButtonEnabled = false;        
+        SelectedLanguage = Languages.ElementAt(0);   
 
         RunCodeCommand = new HandleCommand(async obj => await RunCodeAsync());
         CheckCodeEvaluationCommand = new HandleCommand(async obj => await CheckCodeEvaluationStatus());
+        OpenLeetCodeProblemsCommand = new HandleCommand(obj =>
+        {
+            var _leetCodeProblemsView = serviceProvider.GetRequiredService<LeetCodeProblemsView>();
+
+            _leetCodeProblemsView.Show();
+        });
     }
 
     public async Task RunCodeAsync()

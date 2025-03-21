@@ -87,8 +87,8 @@
             Command="{Binding RunCodeCommand}"
             Content="Run code"
             Foreground="Black"
-            Margin="0,384,485,0"
-            FontSize="20" Height="40" VerticalAlignment="Top" HorizontalAlignment="Right" Width="172">
+            Margin="0,384,568,0"
+            FontSize="15" Height="40" VerticalAlignment="Top" HorizontalAlignment="Right" Width="172">
 
             <Button.Template>
                 <ControlTemplate TargetType="Button">
@@ -115,10 +115,10 @@
             Content="Check status"
             IsEnabled="{Binding IsCheckStatusButtonEnabled}"
             Foreground="Black"
-            Margin="485,384,0,0" 
+            Margin="0,384,0,0" 
             VerticalAlignment="Top"
             Height="40"
-            FontSize="20" HorizontalAlignment="Left" Width="172">
+            FontSize="15" HorizontalAlignment="Center" Width="172">
 
             <Button.Template>
                 <ControlTemplate TargetType="Button">
@@ -139,6 +139,36 @@
                         </Trigger>
 
                         <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="border" Property="Background" Value="DarkSeaGreen"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button 
+            Command="{Binding OpenLeetCodeProblemsCommand}"
+            Content="Open LeetCode problems"
+            Foreground="Black"
+            Margin="578,384,0,0" 
+            VerticalAlignment="Top"
+            Height="40"
+            FontSize="15" HorizontalAlignment="Left" Width="172">
+
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <Border Background="GreenYellow" CornerRadius="10" x:Name="border">
+                        <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Content}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="LawnGreen"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="border" Property="Background" Value="DarkSeaGreen"/>
                         </Trigger>
                     </ControlTemplate.Triggers>

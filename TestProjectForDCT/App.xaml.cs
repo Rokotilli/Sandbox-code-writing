@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using TestProjectForDCT.Services;
 using TestProjectForDCT.ViewModels;
 using TestProjectForDCT.Views;
 
@@ -46,14 +47,22 @@ public partial class App : Application
                     client.DefaultRequestHeaders.Add("client-secret", config.client_secret);
                 });
 
+                services.AddHttpClient(config.httpClientLeetCodeAPIName, client =>
+                {
+                    client.BaseAddress = new Uri(config.leetCodeAPIUrl);
+                });
+
                 services.AddTransient<MainWindow>();
                 services.AddTransient<MainWindowViewModel>();
                 services.AddTransient<HomeViewModel>();
                 services.AddTransient<SandBoxViewModel>();
                 services.AddTransient<HomeView>();
                 services.AddTransient<SandBoxView>();
+                services.AddTransient<LeetCodeProblemsView>();
+                services.AddTransient<LeetCodeProblemsViewModel>();
 
                 services.AddScoped<CodeEvaluationService>();
+                services.AddScoped<LeetCodeService>();
             })
             .Build();
 
