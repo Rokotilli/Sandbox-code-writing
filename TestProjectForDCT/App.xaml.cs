@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using TestProjectForDCT.Services;
 using TestProjectForDCT.ViewModels;
 using TestProjectForDCT.Views;
 
@@ -40,10 +41,15 @@ public partial class App : Application
 
                 services.AddSingleton(config);
 
-                services.AddHttpClient(config.httpClientHackerearthAPIName, client =>
+                services.AddHttpClient(config.HackerEarth.httpClientName, client =>
                 {
-                    client.BaseAddress = new Uri(config.hackerearthAPIUrl);
-                    client.DefaultRequestHeaders.Add("client-secret", config.client_secret);
+                    client.BaseAddress = new Uri(config.HackerEarth.url);
+                    client.DefaultRequestHeaders.Add("client-secret", config.HackerEarth.client_secret);
+                });
+
+                services.AddHttpClient(config.LeetCode.httpClientName, client =>
+                {
+                    client.BaseAddress = new Uri(config.LeetCode.url);
                 });
 
                 services.AddTransient<MainWindow>();
@@ -52,8 +58,15 @@ public partial class App : Application
                 services.AddTransient<SandBoxViewModel>();
                 services.AddTransient<HomeView>();
                 services.AddTransient<SandBoxView>();
+                services.AddTransient<LeetCodeProblemsView>();
+                services.AddTransient<LeetCodeProblemsViewModel>();
+                services.AddTransient<DetailsProblemView>();
+                services.AddTransient<DetailsProblemViewModel>();
+                services.AddTransient<EnteringPersonalDataView>();
+                services.AddTransient<EnteringPersonalDataViewModel>();
 
                 services.AddScoped<CodeEvaluationService>();
+                services.AddScoped<LeetCodeService>();
             })
             .Build();
 

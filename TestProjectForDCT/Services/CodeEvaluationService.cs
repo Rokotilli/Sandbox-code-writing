@@ -11,7 +11,7 @@ public class CodeEvaluationService
 
     public CodeEvaluationService(IHttpClientFactory httpClientFactory, Config config)
     {
-        httpClient = httpClientFactory.CreateClient(config.httpClientHackerearthAPIName);
+        httpClient = httpClientFactory.CreateClient(config.HackerEarth.httpClientName);
     }
 
     public async Task<ResponseCodeEvaluationModel> SendCodeEvaluation(PostCodeEvaluationModel model)

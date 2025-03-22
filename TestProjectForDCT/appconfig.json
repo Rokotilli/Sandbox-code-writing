@@ -1,5 +1,13 @@
 {
-  "client_secret": "",
-  "hackerearthAPIUrl": "https://api.hackerearth.com/v4/partner/code-evaluation/submissions/",
-  "httpClientHackerearthAPIName": "HackerearthAPI"
+  "HackerEarth": {
+    "client_secret": "",
+    "url": "https://api.hackerearth.com/v4/partner/code-evaluation/submissions/",
+    "httpClientName": "HackerearthAPI"
+  },
+  "LeetCode": {
+    "url": "https://leetcode.com/",
+    "httpClientName": "LeetCodeAPI",
+    "session_token": "",
+    "csrf_token": ""
+  }
 }

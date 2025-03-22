@@ -11,13 +11,18 @@
              xmlns:helpers="clr-namespace:TestProjectForDCT.Helpers"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="49*"/>
+        </Grid.RowDefinitions>
         <ComboBox
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
+            FontWeight="Bold"
             Width="120" 
             Height="22"
             SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}"
-            ItemsSource="{Binding Languages}"/>
+            ItemsSource="{Binding Languages}" Grid.RowSpan="2"/>
 
         <avalonEdit:TextEditor Name="CodeEditor"
                        ShowLineNumbers="True"
@@ -26,8 +31,8 @@
                        FontSize="14"
                        HorizontalScrollBarVisibility="Auto"
                        VerticalScrollBarVisibility="Auto"
-                       Padding="10" Margin="0,22,0,203"
-                       helpers:AvalonTextEditorHelper.BindableText="{Binding CodeText, Mode=TwoWay}"/>
+                       Padding="10" Margin="0,13,0,223"
+                       helpers:AvalonTextEditorHelper.BindableText="{Binding CodeText, Mode=TwoWay}" Grid.Row="1"/>
 
         <xctk:IntegerUpDown
             Text="{Binding MemoryLimit, Mode=TwoWay}"
@@ -36,11 +41,11 @@
             DisplayDefaultValueOnEmptyText="True"
             Minimum="1"
             Maximum="262144"
-            HorizontalAlignment="Left"
-            Margin="342,-1,0,0"
+            HorizontalAlignment="Right"
+            Margin="0,0,300,0"
             VerticalAlignment="Top"
             Width="158"
-            Height="23"/>
+            Height="23" Grid.RowSpan="2"/>
 
         <xctk:IntegerUpDown
             Text="{Binding TimeLimit, Mode=TwoWay}"
@@ -49,46 +54,47 @@
             DisplayDefaultValueOnEmptyText="True"
             Minimum="1"
             Maximum="5"
-            HorizontalAlignment="Left"
-            Margin="642,0,0,0"
+            HorizontalAlignment="Right"
             VerticalAlignment="Top" 
             Width="158"
-            Height="22"/>
+            Height="22" Grid.RowSpan="2"/>
 
         <TextBox
             Text="{Binding ResultText, Mode=TwoWay}"
-            HorizontalAlignment="Center"
-            Margin="0,263,0,0"
+            Margin="0,0,0,79"
             TextWrapping="Wrap"
-            VerticalAlignment="Top"
-            Width="800"
-            Height="102"
-            IsReadOnly="True"/>
+            IsReadOnly="True" Grid.Row="1" Height="102" VerticalAlignment="Bottom"/>
 
         <Label
             Content="Memory limit (KB)"
-            HorizontalAlignment="Left"
-            Margin="232,-2,0,0"
-            VerticalAlignment="Top"/>
+            HorizontalAlignment="Right"
+            FontFamily="Calibri"
+            FontSize="15"
+            Margin="0,-3,463,0"
+            VerticalAlignment="Top" Grid.RowSpan="2"/>
 
         <Label
             Content="Time limit (Seconds)"
-            HorizontalAlignment="Left"
-            Margin="520,-2,0,0"
-            VerticalAlignment="Top"/>
+            HorizontalAlignment="Right"
+            FontFamily="Calibri"
+            FontSize="15"
+            Margin="0,-3,161,0"
+            VerticalAlignment="Top" Grid.RowSpan="2"/>
 
         <Label
-            Content="Result"
-            HorizontalAlignment="Center" 
-            Margin="0,237,0,0" 
-            VerticalAlignment="Top"/>
+            Content="Result" 
+            FontFamily="Calibri"
+            HorizontalContentAlignment="Center"
+            FontSize="20"
+            Margin="0,0,0,187" Grid.Row="1" Height="32" VerticalAlignment="Bottom"/>
 
         <Button 
             Command="{Binding RunCodeCommand}"
             Content="Run code"
+            FontFamily="Calibri"
             Foreground="Black"
-            Margin="0,384,485,0"
-            FontSize="20" Height="40" VerticalAlignment="Top" HorizontalAlignment="Right" Width="172">
+            Margin="60,0,0,26"
+            FontSize="20" HorizontalAlignment="Left" Width="172" Height="40" VerticalAlignment="Bottom" Grid.Row="1">
 
             <Button.Template>
                 <ControlTemplate TargetType="Button">
@@ -113,12 +119,13 @@
         <Button 
             Command="{Binding CheckCodeEvaluationCommand}"
             Content="Check status"
+            FontFamily="Calibri"
             IsEnabled="{Binding IsCheckStatusButtonEnabled}"
             Foreground="Black"
-            Margin="485,384,0,0" 
-            VerticalAlignment="Top"
+            Margin="0,0,0,26" 
+            VerticalAlignment="Bottom"
             Height="40"
-            FontSize="20" HorizontalAlignment="Left" Width="172">
+            FontSize="20" HorizontalAlignment="Center" Width="172" Grid.Row="1">
 
             <Button.Template>
                 <ControlTemplate TargetType="Button">
@@ -139,6 +146,35 @@
                         </Trigger>
 
                         <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="border" Property="Background" Value="DarkSeaGreen"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button 
+            Command="{Binding OpenLeetCodeProblemsCommand}"
+            Content="Open LeetCode problems"
+            FontFamily="Calibri"
+            Foreground="Black"
+            Margin="0,0,50,26"
+            FontSize="15" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="172" Grid.Row="1">
+
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <Border Background="GreenYellow" CornerRadius="10" x:Name="border">
+                        <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Content}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="LawnGreen"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="border" Property="Background" Value="DarkSeaGreen"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
