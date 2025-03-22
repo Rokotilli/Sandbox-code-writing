@@ -7,9 +7,8 @@
         xmlns:views="clr-namespace:TestProjectForDCT.Views"
         xmlns:local="clr-namespace:TestProjectForDCT"
         mc:Ignorable="d"
-        Title="MainWindow" Height="480" Width="815"
-        ResizeMode="NoResize">
-    
+        Title="MainWindow" Height="480" Width="815">
+
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:HomeViewModel}">
             <views:HomeView />

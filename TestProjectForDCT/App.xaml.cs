@@ -60,6 +60,10 @@ public partial class App : Application
                 services.AddTransient<SandBoxView>();
                 services.AddTransient<LeetCodeProblemsView>();
                 services.AddTransient<LeetCodeProblemsViewModel>();
+                services.AddTransient<DetailsProblemView>();
+                services.AddTransient<DetailsProblemViewModel>();
+                services.AddTransient<EnteringPersonalDataView>();
+                services.AddTransient<EnteringPersonalDataViewModel>();
 
                 services.AddScoped<CodeEvaluationService>();
                 services.AddScoped<LeetCodeService>();
