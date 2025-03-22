@@ -6,7 +6,93 @@
         xmlns:local="clr-namespace:TestProjectForDCT.Views"
         mc:Ignorable="d"
         d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
 
+    <Grid Background="White">
+        <Button
+            Command="{Binding NavigateLeetCodeProblemsView}"
+            Content="⬅️ Back"
+            FontFamily="Calibri"
+            Foreground="Black"
+            FontSize="15"
+            Height="30"
+            Width="80"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Margin="10">
+
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="GreenYellow" CornerRadius="10" x:Name="border">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                  Content="{TemplateBinding Content}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="LawnGreen"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="DarkSeaGreen"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <StackPanel MaxWidth="700">            
+            <TextBlock Text="Enter your paid account session details to get access"   
+                        FontSize="24"
+                        FontWeight="Bold"
+                        FontFamily="Calibri"
+                        Foreground="#333"
+                        HorizontalAlignment="Center"
+                        Margin="0 100 0 0"/>
+
+            <TextBlock Text="Session Token:"
+                        FontFamily="Calibri"
+                        FontSize="15"/>
+
+            <TextBox Text="{Binding SessionToken}"
+                        Margin="0 5 0 15"
+                        BorderBrush="{Binding SessionTokenBorderBrushColor}"
+                        Height="30"
+                        BorderThickness="1"
+                        Padding="5" />
+
+            <TextBlock Text="CSRF Token:"
+                        FontFamily="Calibri"
+                        FontSize="15"/>
+
+            <TextBox Text="{Binding CsrfToken}"
+                        Margin="0 5 0 20"
+                        BorderBrush="{Binding CsrfTokenBorderBrushColor}"
+                        Height="30"
+                        BorderThickness="1"
+                        Padding="5" />
+            
+            <Button Command="{Binding SaveDataCommand}"
+                    Content="Save"
+                    FontFamily="Calibri"
+                    Foreground="Black"
+                    FontSize="25"
+                    Height="37"
+                    Width="156">
+
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="GreenYellow" CornerRadius="10" x:Name="border">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                  Content="{TemplateBinding Content}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="LawnGreen"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="DarkSeaGreen"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>

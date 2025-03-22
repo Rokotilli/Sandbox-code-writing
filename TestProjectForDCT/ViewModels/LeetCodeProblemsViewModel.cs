@@ -11,10 +11,11 @@ public class LeetCodeProblemsViewModel : BaseViewModel
     private readonly LeetCodeService _leetCodeService;
     private readonly DetailsProblemViewModel _detailsProblemViewModel;
     private readonly EnteringPersonalDataViewModel _enteringPersonalDataViewModel;
+    private readonly Config _config;
+    private object _currentViewModel;
     private ObservableCollection<StatStatusPairs> _allProblems;
     private ObservableCollection<StatStatusPairs> _displayedProblems;
     private StatStatusPairs _selectedProblem;
-    private object _showDetailsOrEnteringDataView;
     private bool _isNextPageButtonEnabled = false;
     private bool _isPreviousPageButtonEnabled = false;
     private int _currentPage = 1;
@@ -72,12 +73,12 @@ public class LeetCodeProblemsViewModel : BaseViewModel
         }
     }
 
-    public object ShowDetailsOrEnteringDataView
+    public object CurrentViewModel
     {
-        get => _showDetailsOrEnteringDataView;
+        get => _currentViewModel;
         set
         {
-            _showDetailsOrEnteringDataView = value;
+            _currentViewModel = value;
             OnPropertyChanged();
         }
     }
@@ -95,20 +96,26 @@ public class LeetCodeProblemsViewModel : BaseViewModel
     public ICommand NextPageCommand { get; }
     public ICommand PreviousPageCommand { get; }
     public ICommand ListItemClickedCommand { get; }
-    public ICommand CloseDetailsProblemView { get; }
+    public ICommand CloseCurrentViewModelCommand { get; }
 
-    public LeetCodeProblemsViewModel(LeetCodeService leetCodeService, DetailsProblemViewModel detailsProblemViewModel, EnteringPersonalDataViewModel enteringPersonalDataViewModel)
+    public LeetCodeProblemsViewModel(
+        LeetCodeService leetCodeService,
+        DetailsProblemViewModel detailsProblemViewModel,
+        EnteringPersonalDataViewModel enteringPersonalDataViewModel,
+        Config config)
     {
         _leetCodeService = leetCodeService;
         _detailsProblemViewModel = detailsProblemViewModel;
         _enteringPersonalDataViewModel = enteringPersonalDataViewModel;
+        _config = config;
 
         NextPageCommand = new HandleCommand(obj => CurrentPage++);
         PreviousPageCommand = new HandleCommand(obj => CurrentPage--);
-        CloseDetailsProblemView = new HandleCommand(obj => ShowDetailsOrEnteringDataView = null);
+        CloseCurrentViewModelCommand = new HandleCommand(obj => CurrentViewModel = null);
         ListItemClickedCommand = new HandleCommand(async obj => await ListItemClicked(obj));
 
-        detailsProblemViewModel.NavigateLeetCodeProblemsView = CloseDetailsProblemView;
+        detailsProblemViewModel.NavigateLeetCodeProblemsView = CloseCurrentViewModelCommand;
+        enteringPersonalDataViewModel.NavigateLeetCodeProblemsView = CloseCurrentViewModelCommand;
     }
 
     public async Task InitializeData()
@@ -126,19 +133,19 @@ public class LeetCodeProblemsViewModel : BaseViewModel
     {
         if (parameter is StatStatusPairs problem)
         {
-            SelectedProblem = problem;
+            SelectedProblem = problem;         
 
-            var content = await _leetCodeService.GetDetailsProblemAsync(problem.stat.question__title_slug, "", "");            
+            var content = await _leetCodeService.GetDetailsProblemAsync(problem.stat.question__title_slug, _config.LeetCode.session_token, _config.LeetCode.csrf_token);
 
-            //Temporary solution
             if (content.data.question.content == null)
             {
+                CurrentViewModel = _enteringPersonalDataViewModel;
                 return;
             }
 
             _detailsProblemViewModel.HtmlContent = content.data.question.content;
 
-            ShowDetailsOrEnteringDataView = _detailsProblemViewModel;
+            CurrentViewModel = _detailsProblemViewModel;
         }
     }
 

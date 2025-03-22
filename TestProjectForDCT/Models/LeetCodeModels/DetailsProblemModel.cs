@@ -12,7 +12,7 @@ public class Data
 
 public class Question
 {
-    public string question_id { get; set; }
+    public string questionId { get; set; }
     public string title { get; set; }
     public string content { get; set; }
     public string difficulty { get; set; }

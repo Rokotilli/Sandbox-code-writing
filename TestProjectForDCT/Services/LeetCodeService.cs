@@ -8,12 +8,10 @@ namespace TestProjectForDCT.Services;
 public class LeetCodeService
 {
     private readonly HttpClient _httpClient;
-    private readonly Config _config;
 
     public LeetCodeService(IHttpClientFactory httpClientFactory, Config config)
     {
-        _config = config;
-        _httpClient = httpClientFactory.CreateClient(config.httpClientLeetCodeAPIName);
+        _httpClient = httpClientFactory.CreateClient(config.LeetCode.httpClientName);
     }
 
     public async Task<GetProblemsModel> GetProblemsAsync()
@@ -34,33 +32,29 @@ public class LeetCodeService
 
     public async Task<DetailsProblemModel> GetDetailsProblemAsync(string ProblemSlug, string SessionToken, string CsrfToken)
     {
+        _httpClient.DefaultRequestHeaders.Add("cookie", $"{SessionToken}; csrftoken={CsrfToken}");
+        _httpClient.DefaultRequestHeaders.Add("x-csrftoken", CsrfToken);
+
         var queryObj = new
         {
             operationName = "questionData",
             variables = new { titleSlug = ProblemSlug },
             query = @"
-                        query questionData($titleSlug: String!) {
-                            question(titleSlug: $titleSlug) {
-                                questionId
-                                title
-                                content
-                                difficulty
-                            }
-                        }
-                    "
+                query questionData($titleSlug: String!) {
+                    question(titleSlug: $titleSlug) {
+                        questionId
+                        title
+                        content
+                        difficulty
+                    }
+                }
+            "
         };
 
         var json = JsonConvert.SerializeObject(queryObj);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        var request = new HttpRequestMessage(HttpMethod.Post, "graphql/");
-        request.Content = content;
-
-        request.Headers.Add("referer", _config.httpClientLeetCodeAPIName);
-        request.Headers.Add("cookie", $"{SessionToken}; csrftoken={CsrfToken}");
-        request.Headers.Add("x-csrftoken", CsrfToken);
-
-        var response = await _httpClient.SendAsync(request);
+        var response = await _httpClient.PostAsync("graphql/", content);
 
         if (!response.IsSuccessStatusCode)
         {

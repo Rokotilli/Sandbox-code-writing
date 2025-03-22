@@ -41,15 +41,15 @@ public partial class App : Application
 
                 services.AddSingleton(config);
 
-                services.AddHttpClient(config.httpClientHackerearthAPIName, client =>
+                services.AddHttpClient(config.HackerEarth.httpClientName, client =>
                 {
-                    client.BaseAddress = new Uri(config.hackerearthAPIUrl);
-                    client.DefaultRequestHeaders.Add("client-secret", config.client_secret);
+                    client.BaseAddress = new Uri(config.HackerEarth.url);
+                    client.DefaultRequestHeaders.Add("client-secret", config.HackerEarth.client_secret);
                 });
 
-                services.AddHttpClient(config.httpClientLeetCodeAPIName, client =>
+                services.AddHttpClient(config.LeetCode.httpClientName, client =>
                 {
-                    client.BaseAddress = new Uri(config.leetCodeAPIUrl);
+                    client.BaseAddress = new Uri(config.LeetCode.url);
                 });
 
                 services.AddTransient<MainWindow>();

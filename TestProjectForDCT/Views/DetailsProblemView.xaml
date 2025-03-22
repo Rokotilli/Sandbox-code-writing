@@ -12,6 +12,7 @@
         <Button
             Command="{Binding NavigateLeetCodeProblemsView}"
             Content="⬅️ Back"
+            FontFamily="Calibri"
             Foreground="Black"
             FontSize="15"
             Height="30"

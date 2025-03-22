@@ -1,5 +1,4 @@
-﻿<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:helpers="clr-namespace:TestProjectForDCT.Helpers"
         xmlns:av="http://schemas.microsoft.com/expression/blend/2008"
@@ -23,14 +22,15 @@
 
     <Grid>
         <TextBlock Text="LeetCode Problems"
-               FontSize="24"
+               FontSize="29"
+               FontFamily="Calibri"
                FontWeight="Bold"
                Margin="10,0,0,0"
                Height="32"
                VerticalAlignment="Top"
                HorizontalAlignment="Left"
                Width="800" />
-        <ContentControl Content="{Binding ShowDetailsOrEnteringDataView}" Panel.ZIndex="99" />
+        <ContentControl Content="{Binding CurrentViewModel}" Panel.ZIndex="99" />
         
         <Grid Margin="10,32,10,0" Height="30" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
@@ -41,6 +41,8 @@
 
             <Border BorderBrush="Gray" BorderThickness="1" Background="LightGray">
                 <TextBlock Text="Title"
+                       FontFamily="Calibri"
+                       FontSize="15"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
                        Margin="5,0"
@@ -49,6 +51,8 @@
 
             <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Background="LightGray">
                 <TextBlock Text="Difficult"
+                       FontFamily="Calibri"
+                       FontSize="15"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontWeight="Bold"/>
@@ -56,6 +60,8 @@
 
             <Border Grid.Column="2" BorderBrush="Gray" BorderThickness="1" Background="LightGray">
                 <TextBlock Text="Paid only"
+                       FontFamily="Calibri"
+                       FontSize="15"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontWeight="Bold"/>
@@ -109,6 +115,7 @@
                                 Text="{Binding difficulty.level, Converter={StaticResource DataConvertHelper}}"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
+                                FontWeight="Bold"
                                 Margin="5,0"/>
 
                             <TextBlock 
@@ -116,6 +123,7 @@
                                 Text="{Binding paid_only, Converter={StaticResource DataConvertHelper}}"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Right"
+                                FontWeight="Bold"
                                 Margin="5,0"/>
                         </Grid>
                     </Border>
@@ -132,7 +140,8 @@
             <Button 
                 Command="{Binding PreviousPageCommand}"
                 IsEnabled="{Binding IsPreviousPageButtonEnabled}"
-                Content="Previous"
+                Content="&lt;"
+                FontFamily="Calibri"
                 Foreground="Black"
                 FontSize="15"
                 Height="27"
@@ -163,9 +172,10 @@
 
             <Button 
                 Command="{Binding NextPageCommand}"
-                Content="Next"
+                Content=">"
                 IsEnabled="{Binding IsNextPageButtonEnabled}"
                 Foreground="Black"
+                FontFamily="Calibri"
                 FontSize="15"
                 Height="27"
                 Width="70">
