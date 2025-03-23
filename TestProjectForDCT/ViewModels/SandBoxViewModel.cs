@@ -6,12 +6,16 @@ using System.Windows.Input;
 using TestProjectForDCT.Models.HackerearthModels;
 using TestProjectForDCT.ViewModels.CommandHandler;
 using TestProjectForDCT.Views;
+using System.Xml;
+using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using System.IO;
 
 namespace TestProjectForDCT.ViewModels;
 
 public class SandBoxViewModel : BaseViewModel
 {
     private readonly CodeEvaluationService _codeEvaluationService;
+    private readonly Config _config;
     private Dictionary<string, string> _languages;
     private string _codeText;
     private string _memoryLimit = "262144";
@@ -68,20 +72,7 @@ public class SandBoxViewModel : BaseViewModel
         set
         {
             _selectedLanguage = value;
-            string language = _selectedLanguage switch
-            {
-                "C" or "C++14" or "C++17" or "Objective C" => "C++",
-                "C#" => "C#",
-                "Java 8" or "Java 14" => "Java",
-                "JavaScript(Nodejs)" or "TypeScript" => "JavaScript",
-                "Python 2" or "Python 3" or "Python 3.8" => "Python",
-                "Ruby" => "Ruby",
-                "Pascal" => "Pascal",
-                "PHP" => "PHP",
-                _ => ""
-            };
-
-            SyntaxHighlighting = HighlightingManager.Instance.GetDefinition(language);
+            UpdateSyntaxHighlighting();
             OnPropertyChanged();
         }
     }
@@ -111,10 +102,12 @@ public class SandBoxViewModel : BaseViewModel
     public ICommand RunCodeCommand { get; set; }
     public ICommand CheckCodeEvaluationCommand { get; set; }
     public ICommand OpenLeetCodeProblemsCommand { get; set; }
+    public ICommand NavigateToHomeViewCommand { get; set; }
 
-    public SandBoxViewModel(CodeEvaluationService codeEvaluationService, IServiceProvider serviceProvider)
+    public SandBoxViewModel(CodeEvaluationService codeEvaluationService, IServiceProvider serviceProvider, Config config)
     {
-        _codeEvaluationService = codeEvaluationService;        
+        _codeEvaluationService = codeEvaluationService;
+        _config = config;
         _languages = new()
         {
             { "C", "C" },
@@ -148,7 +141,7 @@ public class SandBoxViewModel : BaseViewModel
             Languages.Add(lang.Value);
         }
 
-        SelectedLanguage = Languages.ElementAt(0);   
+        SelectedLanguage = Languages.ElementAt(0);
 
         RunCodeCommand = new HandleCommand(async obj => await RunCodeAsync());
         CheckCodeEvaluationCommand = new HandleCommand(async obj => await CheckCodeEvaluationStatus());
@@ -160,7 +153,25 @@ public class SandBoxViewModel : BaseViewModel
         });
     }
 
-    public async Task RunCodeAsync()
+    public void UpdateSyntaxHighlighting()
+    {
+        string language = SelectedLanguage switch
+        {
+            "C" or "C++14" or "C++17" or "Objective C" => "C++",
+            "C#" => "C#",
+            "Java 8" or "Java 14" => "Java",
+            "JavaScript(Nodejs)" or "TypeScript" => "JavaScript",
+            "Python 2" or "Python 3" or "Python 3.8" => "Python",
+            "Ruby" => "Ruby",
+            "Pascal" => "Pascal",
+            "PHP" => "PHP",
+            _ => ""
+        };
+
+        SyntaxHighlighting = _config.ApplicationTheme == "Dark" ? LoadDarkHighlighting(language) : HighlightingManager.Instance.GetDefinition(language);
+    }
+
+    private async Task RunCodeAsync()
     {
         try
         {
@@ -191,7 +202,7 @@ public class SandBoxViewModel : BaseViewModel
         }
     }
 
-    public async Task CheckCodeEvaluationStatus()
+    private async Task CheckCodeEvaluationStatus()
     {
         try
         {
@@ -203,12 +214,13 @@ public class SandBoxViewModel : BaseViewModel
 
             resultMessage.AppendLine($"Compile status: {result.result.compile_status}");
 
+            if (result.result.compile_status == "OK")
+            {
+                resultMessage.AppendLine("Executing...");
+            }
+
             switch (runStatus.status)
             {
-                case "NA":
-                    resultMessage.AppendLine("Executing...");
-                    break;
-
                 case "AC":
                     resultMessage.AppendLine($"Memory used: {runStatus.memory_used} bytes");
                     resultMessage.AppendLine($"Time used: {runStatus.time_used}");
@@ -253,5 +265,30 @@ public class SandBoxViewModel : BaseViewModel
             "NZEC" or "OTHER" => "NZEC / OTHER: User code stopped due to an unexpected reason.",
             _ => "Unknown runtime error."
         };
+    }
+
+    private IHighlightingDefinition LoadDarkHighlighting(string language)
+    {
+        var resourceName = language switch
+        {
+            "C++" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/CPP_Dark.xshd",
+            "C#" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/CSHARP_Dark.xshd",
+            "Java" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/Java_Dark.xshd",
+            "JavaScript" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/JavaScript_Dark.xshd",
+            "Pascal" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/Pascal_Dark.xshd",
+            "PHP" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/PHP_Dark.xshd",
+            "Python" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/Python_Dark.xshd",
+            "Ruby" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/Ruby_Dark.xshd",
+            _ => null
+        };
+
+        using (var stream = File.OpenRead(resourceName))
+        {
+            using (var reader = new XmlTextReader(stream))
+            {
+                var xshd = HighlightingLoader.LoadXshd(reader);
+                return HighlightingLoader.Load(xshd, HighlightingManager.Instance);
+            }
+        }
     }
 }

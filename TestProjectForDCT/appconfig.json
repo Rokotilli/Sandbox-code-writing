@@ -9,5 +9,6 @@
     "httpClientName": "LeetCodeAPI",
     "session_token": "",
     "csrf_token": ""
-  }
+  },
+  "ApplicationTheme": "Light"
 }

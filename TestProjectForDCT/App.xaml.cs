@@ -52,12 +52,13 @@ public partial class App : Application
                     client.BaseAddress = new Uri(config.LeetCode.url);
                 });
 
+                services.AddSingleton<SandBoxView>();
+                services.AddSingleton<SandBoxViewModel>();
+
                 services.AddTransient<MainWindow>();
                 services.AddTransient<MainWindowViewModel>();
-                services.AddTransient<HomeViewModel>();
-                services.AddTransient<SandBoxViewModel>();
-                services.AddTransient<HomeView>();
-                services.AddTransient<SandBoxView>();
+                services.AddTransient<HomeViewModel>();                
+                services.AddTransient<HomeView>();                
                 services.AddTransient<LeetCodeProblemsView>();
                 services.AddTransient<LeetCodeProblemsViewModel>();
                 services.AddTransient<DetailsProblemView>();

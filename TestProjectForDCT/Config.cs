@@ -4,6 +4,7 @@ public class Config
 {
     public HackerEarthConfig HackerEarth { get; set; }
     public LeetCodeConfig LeetCode { get; set; }
+    public string ApplicationTheme { get; set; }
 }
 
 public class HackerEarthConfig
