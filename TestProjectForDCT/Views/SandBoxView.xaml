@@ -131,8 +131,8 @@
 
         <xctk:IntegerUpDown
             Text="{Binding MemoryLimit, Mode=TwoWay}"
-            Background="{Binding BackgroundBrush}"
-            Foreground="{Binding ForegroundBrush}"
+            Background="{DynamicResource BackgroundBrush}"
+            Foreground="{DynamicResource ForegroundBrush}"
             TextAlignment="Left"
             DefaultValue="262144"
             DisplayDefaultValueOnEmptyText="True"
@@ -146,8 +146,8 @@
 
         <xctk:IntegerUpDown
             Text="{Binding TimeLimit, Mode=TwoWay}"
-            Background="{Binding BackgroundBrush}"
-            Foreground="{Binding ForegroundBrush}"
+            Background="{DynamicResource BackgroundBrush}"
+            Foreground="{DynamicResource ForegroundBrush}"
             TextAlignment="Left"
             DefaultValue="5"
             DisplayDefaultValueOnEmptyText="True"
