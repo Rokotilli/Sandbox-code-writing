@@ -1,0 +1,43 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key="BackgroundColor">#f7f7f7</Color>
+    <Color x:Key="ForegroundColor">#FF000000</Color>
+
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}" />
+    <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}" />
+
+    <SolidColorBrush x:Key="AvalonBackground" Color="#ebebeb" />
+
+    <SolidColorBrush x:Key="ButtonNormalBackground" Color="GreenYellow"/>
+    <SolidColorBrush x:Key="ButtonHoverBackground" Color="LawnGreen"/>
+    <SolidColorBrush x:Key="ButtonPressedBackground" Color="DarkSeaGreen"/>
+
+    <SolidColorBrush x:Key="ComboBoxBackgroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ComboBoxBorderBrush" Color="#FFCCCCCC" />
+    <SolidColorBrush x:Key="ComboBoxForegroundBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="ComboBoxMouseOverBackgroundBrush" Color="#FFEEEEEE" />
+    <SolidColorBrush x:Key="ComboBoxFocusedBorderBrush" Color="#FF007ACC" />
+    
+    <SolidColorBrush x:Key="ComboBoxPopupBackgroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ComboBoxPopupBorderBrush" Color="#FFCCCCCC" />
+    <SolidColorBrush x:Key="ComboBoxArrowBrush" Color="#FF000000" />
+
+    <SolidColorBrush x:Key="HeaderBackgroundBrush" Color="#FFEFEFEF"/>
+    <SolidColorBrush x:Key="HeaderBorderBrush" Color="#FFCCCCCC"/>
+
+    <SolidColorBrush x:Key="ListItemBorderBrush" Color="#FFCCCCCC"/>    
+
+    <Style TargetType="Window">
+        <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+    </Style>
+
+    <Style TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+    </Style>
+
+    <Style TargetType="TextBox">
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
+        <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+    </Style>
+</ResourceDictionary>

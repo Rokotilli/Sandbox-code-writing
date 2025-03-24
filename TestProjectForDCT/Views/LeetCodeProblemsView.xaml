@@ -10,6 +10,7 @@
         x:Class="TestProjectForDCT.Views.LeetCodeProblemsView"
         SizeToContent="Width"
         Title="LeetCode Problems" Height="560" Width="800">
+
     <Window.Resources>
         <helpers:DataConvertHelper x:Key="DataConvertHelper"/>
         <DataTemplate DataType="{x:Type vm:DetailsProblemViewModel}">
@@ -20,18 +21,19 @@
         </DataTemplate>
     </Window.Resources>
 
-    <Grid>
+    <Grid Background="{DynamicResource BackgroundBrush}">
         <TextBlock Text="LeetCode Problems"
-               FontSize="29"
-               FontFamily="Calibri"
-               FontWeight="Bold"
-               Margin="10,0,0,0"
-               Height="32"
-               VerticalAlignment="Top"
-               HorizontalAlignment="Left"
-               Width="800" />
-        <ContentControl Content="{Binding CurrentViewModel}" Panel.ZIndex="99" />
-        
+                   FontSize="29"
+                   FontFamily="Calibri"
+                   FontWeight="Bold"
+                   Height="32"
+                   VerticalAlignment="Top"
+                   Margin="10,0,0,0"
+                   HorizontalAlignment="Left"
+                   Width="780"/>
+
+        <ContentControl Content="{Binding CurrentViewModel}" Panel.ZIndex="99"/>
+
         <Grid Margin="10,32,10,0" Height="30" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -39,40 +41,48 @@
                 <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
 
-            <Border BorderBrush="Gray" BorderThickness="1" Background="LightGray">
+            <Border BorderBrush="{DynamicResource HeaderBorderBrush}"
+                    BorderThickness="1"
+                    Background="{DynamicResource HeaderBackgroundBrush}">
                 <TextBlock Text="Title"
-                       FontFamily="Calibri"
-                       FontSize="15"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Left"
-                       Margin="5,0"
-                       FontWeight="Bold"/>
+                           FontFamily="Calibri"
+                           FontSize="15"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Margin="5,0"
+                           FontWeight="Bold"/>
             </Border>
 
-            <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Background="LightGray">
+            <Border Grid.Column="1"
+                    BorderBrush="{DynamicResource HeaderBorderBrush}"
+                    BorderThickness="1"
+                    Background="{DynamicResource HeaderBackgroundBrush}">
                 <TextBlock Text="Difficult"
-                       FontFamily="Calibri"
-                       FontSize="15"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
-                       FontWeight="Bold"/>
+                            FontFamily="Calibri"
+                            FontSize="15"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            FontWeight="Bold"/>
             </Border>
 
-            <Border Grid.Column="2" BorderBrush="Gray" BorderThickness="1" Background="LightGray">
+            <Border Grid.Column="2"
+                    BorderBrush="{DynamicResource HeaderBorderBrush}"
+                    BorderThickness="1"
+                    Background="{DynamicResource HeaderBackgroundBrush}">
                 <TextBlock Text="Paid only"
-                       FontFamily="Calibri"
-                       FontSize="15"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
-                       FontWeight="Bold"/>
+                            FontFamily="Calibri"
+                            FontSize="15"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            FontWeight="Bold"/>
             </Border>
         </Grid>
 
-        <ListBox
-            ItemsSource="{Binding DisplayedProblems}"
-            SelectedItem="{Binding SelectedProblem}"
-            Margin="10,67,10,58"
-            HorizontalContentAlignment="Stretch">
+        <ListBox ItemsSource="{Binding DisplayedProblems}"
+                SelectedItem="{Binding SelectedProblem}"
+                Margin="10,67,10,58"
+                Background="{DynamicResource BackgroundBrush}"
+                HorizontalContentAlignment="Stretch">
 
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">
@@ -82,8 +92,10 @@
 
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border Padding="5" Margin="2"
-                            BorderBrush="Gray" BorderThickness="1"
+                    <Border Padding="5"
+                            Margin="2"
+                            BorderBrush="{DynamicResource ListItemBorderBrush}"
+                            BorderThickness="1"
                             HorizontalAlignment="Stretch"
                             Background="Transparent">
                         <i:Interaction.Triggers>
@@ -93,14 +105,14 @@
                                     CommandParameter="{Binding}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-                        <Grid HorizontalAlignment="Stretch">                            
+                        <Grid HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition Width="100"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock 
+                            <TextBlock
                                 Grid.Column="0"
                                 Text="{Binding stat.question__title}"
                                 FontWeight="Bold"
@@ -110,7 +122,7 @@
                                 TextWrapping="Wrap"
                                 Margin="5,0" />
 
-                            <TextBlock 
+                            <TextBlock
                                 Grid.Column="1"
                                 Text="{Binding difficulty.level, Converter={StaticResource DataConvertHelper}}"
                                 VerticalAlignment="Center"
@@ -137,64 +149,69 @@
                     Height="31"
                     VerticalAlignment="Bottom">
 
-            <Button 
+            <Button
                 Command="{Binding PreviousPageCommand}"
                 IsEnabled="{Binding IsPreviousPageButtonEnabled}"
                 Content="&lt;"
                 FontFamily="Calibri"
-                Foreground="Black"
                 FontSize="15"
                 Height="27"
                 Width="70">
 
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="GreenYellow" CornerRadius="10" x:Name="border">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                        <Border Background="{DynamicResource ButtonNormalBackground}"
+                                CornerRadius="10"
+                                x:Name="border">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
                                               Content="{TemplateBinding Content}"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="LawnGreen"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource ButtonHoverBackground}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="DarkSeaGreen"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource ButtonPressedBackground}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="false">
-                                <Setter TargetName="border" Property="Background" Value="DarkSeaGreen"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource ButtonPressedBackground}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Button.Template>
             </Button>
 
-            <TextBlock Text="{Binding CurrentPage}" VerticalAlignment="Center" Margin="10,0"/>
+            <TextBlock Text="{Binding CurrentPage}"
+                       VerticalAlignment="Center"
+                       Margin="10,0"/>
 
-            <Button 
-                Command="{Binding NextPageCommand}"
-                Content=">"
-                IsEnabled="{Binding IsNextPageButtonEnabled}"
-                Foreground="Black"
-                FontFamily="Calibri"
-                FontSize="15"
-                Height="27"
-                Width="70">
+            <Button Command="{Binding NextPageCommand}"
+                    Content=">"
+                    IsEnabled="{Binding IsNextPageButtonEnabled}"
+                    FontFamily="Calibri"
+                    FontSize="15"
+                    Height="27"
+                    Width="70">
 
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="GreenYellow" CornerRadius="10" x:Name="border">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                        <Border Background="{DynamicResource ButtonNormalBackground}"
+                                CornerRadius="10"
+                                x:Name="border">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
                                               Content="{TemplateBinding Content}"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="LawnGreen"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource ButtonHoverBackground}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="DarkSeaGreen"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource ButtonPressedBackground}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="false">
-                                <Setter TargetName="border" Property="Background" Value="DarkSeaGreen"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource ButtonPressedBackground}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

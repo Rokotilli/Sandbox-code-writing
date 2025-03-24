@@ -10,7 +10,8 @@
              xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
              xmlns:helpers="clr-namespace:TestProjectForDCT.Helpers"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
-    <Grid>
+
+    <Grid Background="{DynamicResource BackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="49*"/>
@@ -19,23 +20,119 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             FontWeight="Bold"
-            Width="120" 
+            Width="160"
             Height="22"
             SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}"
-            ItemsSource="{Binding Languages}" Grid.RowSpan="2"/>
+            ItemsSource="{Binding Languages}"
+            Grid.RowSpan="2">
 
-        <avalonEdit:TextEditor Name="CodeEditor"
-                       ShowLineNumbers="True"
-                       SyntaxHighlighting="{Binding SyntaxHighlighting}"
-                       FontFamily="Consolas"
-                       FontSize="14"
-                       HorizontalScrollBarVisibility="Auto"
-                       VerticalScrollBarVisibility="Auto"
-                       Padding="10" Margin="0,13,0,223"
-                       helpers:AvalonTextEditorHelper.BindableText="{Binding CodeText, Mode=TwoWay}" Grid.Row="1"/>
+            <ComboBox.Style>
+                <Style TargetType="ComboBox">
+                    <Setter Property="Foreground" Value="{DynamicResource ComboBoxForegroundBrush}" />
+                    <Setter Property="Background" Value="{DynamicResource ComboBoxBackgroundBrush}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource ComboBoxBorderBrush}" />
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="Padding" Value="4,2" />
+                    <Setter Property="FontSize" Value="14" />
+
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ComboBox">
+                                <Grid>
+                                    <Border x:Name="Border"
+                                            Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            CornerRadius="4"
+                                            SnapsToDevicePixels="True">
+
+                                        <DockPanel Margin="0">
+                                            <ContentPresenter
+                                                VerticalAlignment="Center"
+                                                Margin="5,0,0,0"
+                                                Content="{TemplateBinding SelectionBoxItem}"
+                                                ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                RecognizesAccessKey="True"/>
+
+                                            <ToggleButton
+                                                Name="ToggleButton"
+                                                DockPanel.Dock="Right"
+                                                Focusable="False"
+                                                IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                Background="Transparent"
+                                                BorderBrush="{x:Null}">
+
+                                                <Grid Width="20" Height="20">
+                                                    <Path
+                                                        Data="M 0 0 L 8 0 L 4 5 Z"
+                                                        Fill="{DynamicResource ComboBoxArrowBrush}"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </ToggleButton>
+                                        </DockPanel>
+                                    </Border>
+
+                                    <Popup
+                                        Name="Popup"
+                                        Placement="Bottom"
+                                        IsOpen="{TemplateBinding IsDropDownOpen}"
+                                        AllowsTransparency="True"
+                                        Focusable="False"
+                                        PopupAnimation="Slide">
+
+                                        <Border
+                                            Background="{DynamicResource ComboBoxPopupBackgroundBrush}"
+                                            BorderBrush="{DynamicResource ComboBoxPopupBorderBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="4"
+                                            SnapsToDevicePixels="True">
+
+                                            <ScrollViewer>
+                                                <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                            </ScrollViewer>
+                                        </Border>
+                                    </Popup>
+                                </Grid>
+
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource ComboBoxMouseOverBackgroundBrush}" />
+                                    </Trigger>
+
+                                    <Trigger Property="IsFocused" Value="True">
+                                        <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ComboBoxFocusedBorderBrush}" />
+                                    </Trigger>
+
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Foreground" Value="Gray" />
+                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource ComboBoxPopupBackgroundBrush}" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ComboBox.Style>
+        </ComboBox>
+
+        <avalonEdit:TextEditor 
+            Name="CodeEditor"
+            Background="{DynamicResource AvalonBackground}"
+            Foreground="{DynamicResource ForegroundBrush}"
+            ShowLineNumbers="True"
+            SyntaxHighlighting="{Binding SyntaxHighlighting}"
+            FontFamily="Consolas"
+            FontSize="14"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto"
+            Padding="10" Margin="0,13,0,223"
+            helpers:AvalonTextEditorHelper.BindableText="{Binding CodeText, Mode=TwoWay}" Grid.Row="1"/>
 
         <xctk:IntegerUpDown
             Text="{Binding MemoryLimit, Mode=TwoWay}"
+            Background="{Binding BackgroundBrush}"
+            Foreground="{Binding ForegroundBrush}"
             TextAlignment="Left"
             DefaultValue="262144"
             DisplayDefaultValueOnEmptyText="True"
@@ -49,6 +146,8 @@
 
         <xctk:IntegerUpDown
             Text="{Binding TimeLimit, Mode=TwoWay}"
+            Background="{Binding BackgroundBrush}"
+            Foreground="{Binding ForegroundBrush}"
             TextAlignment="Left"
             DefaultValue="5"
             DisplayDefaultValueOnEmptyText="True"
@@ -89,16 +188,16 @@
             Margin="0,0,0,187" Grid.Row="1" Height="32" VerticalAlignment="Bottom"/>
 
         <Button 
-            Command="{Binding RunCodeCommand}"
-            Content="Run code"
+            Command="{Binding NavigateToHomeViewCommand}"
+            Content="⬅️ Back"
             FontFamily="Calibri"
             Foreground="Black"
-            Margin="60,0,0,26"
+            Margin="10,0,0,26"
             FontSize="20" HorizontalAlignment="Left" Width="172" Height="40" VerticalAlignment="Bottom" Grid.Row="1">
 
             <Button.Template>
                 <ControlTemplate TargetType="Button">
-                    <Border Background="GreenYellow" CornerRadius="10" x:Name="border">
+                    <Border Background="{DynamicResource ButtonNormalBackground}" CornerRadius="10" x:Name="border">
                         <ContentPresenter
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -106,11 +205,40 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="LawnGreen"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource ButtonHoverBackground}"/>
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="DarkSeaGreen"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource ButtonPressedBackground}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+        <Button 
+            Command="{Binding RunCodeCommand}"
+            Content="Run code"
+            FontFamily="Calibri"
+            Foreground="Black"
+            Margin="207,0,0,26"
+            FontSize="20" HorizontalAlignment="Left" Width="172" Height="40" VerticalAlignment="Bottom" Grid.Row="1">
+
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{DynamicResource ButtonNormalBackground}" CornerRadius="10" x:Name="border">
+                        <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Content}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource ButtonHoverBackground}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource ButtonPressedBackground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -122,15 +250,15 @@
             FontFamily="Calibri"
             IsEnabled="{Binding IsCheckStatusButtonEnabled}"
             Foreground="Black"
-            Margin="0,0,0,26" 
+            Margin="0,0,207,26" 
             VerticalAlignment="Bottom"
             Height="40"
-            FontSize="20" HorizontalAlignment="Center" Width="172" Grid.Row="1">
+            FontSize="20" Grid.Row="1" HorizontalAlignment="Right" Width="172">
 
             <Button.Template>
                 <ControlTemplate TargetType="Button">
 
-                    <Border Background="GreenYellow" CornerRadius="10" x:Name="border">
+                    <Border Background="{DynamicResource ButtonNormalBackground}" CornerRadius="10" x:Name="border">
                         <ContentPresenter
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -138,15 +266,15 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="LawnGreen"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource ButtonHoverBackground}"/>
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="DarkSeaGreen"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource ButtonPressedBackground}"/>
                         </Trigger>
 
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="border" Property="Background" Value="DarkSeaGreen"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource ButtonPressedBackground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -157,13 +285,13 @@
             Content="Open LeetCode problems"
             FontFamily="Calibri"
             Foreground="Black"
-            Margin="0,0,50,26"
+            Margin="0,0,10,26"
             FontSize="15" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="172" Grid.Row="1">
 
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
 
-                    <Border Background="GreenYellow" CornerRadius="10" x:Name="border">
+                    <Border Background="{DynamicResource ButtonNormalBackground}" CornerRadius="10" x:Name="border">
                         <ContentPresenter
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -171,11 +299,11 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="LawnGreen"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource ButtonHoverBackground}"/>
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="DarkSeaGreen"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource ButtonPressedBackground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

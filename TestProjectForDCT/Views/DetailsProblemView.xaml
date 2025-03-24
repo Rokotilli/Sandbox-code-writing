@@ -7,13 +7,11 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <Grid Background="White">
-
+    <Grid Background="{DynamicResource BackgroundBrush}">
         <Button
             Command="{Binding NavigateLeetCodeProblemsView}"
             Content="⬅️ Back"
             FontFamily="Calibri"
-            Foreground="Black"
             FontSize="15"
             Height="30"
             Width="80"
@@ -23,16 +21,16 @@
 
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Background="GreenYellow" CornerRadius="10" x:Name="border">
+                    <Border Background="{DynamicResource ButtonNormalBackground}" CornerRadius="10" x:Name="border">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
                                           Content="{TemplateBinding Content}"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="LawnGreen"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource ButtonHoverBackground}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="DarkSeaGreen"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource ButtonPressedBackground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -45,12 +43,14 @@
             BorderThickness="1"
             BorderBrush="Gray"
             CornerRadius="8"
-            Background="White"
+            Background="{DynamicResource BackgroundBrush}"
             MaxWidth="1000">
 
             <FlowDocumentScrollViewer
                 Document="{Binding ProblemDescription}"
-                Padding="10"/>
+                Padding="10"
+                Foreground="{DynamicResource ForegroundBrush}"/>
+            
         </Border>
     </Grid>
 </UserControl>

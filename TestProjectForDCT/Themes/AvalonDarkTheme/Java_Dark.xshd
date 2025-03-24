@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SyntaxDefinition name="Java" extensions=".java" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+	<Color name="Comment" foreground="#FF57A64A" />
+	<Color name="String" foreground="#FFDAA520" />
+	<Color name="Character" foreground="#FFFF69B4" />
+	<Color name="ControlKeywords" foreground="#FFFF6347" />
+	<Color name="Keywords" foreground="#FF00BFFF" />
+	<Color name="ExceptionKeywords" foreground="#FFFF1493" />
+	<Color name="VisibilityKeywords" foreground="#FFFFD700" />
+	<Color name="Modifiers" foreground="#FF9370DB" />
+	<Color name="TypeKeywords" foreground="#FF7CFC00" />
+	<Color name="BooleanConstants" foreground="#FFFF00FF" />
+	<Color name="ClassObjects" foreground="#FF00FFFF" />
+
+	<RuleSet ignoreCase="false">
+		<Span color="Comment" begin="//" end="\n" />
+		<Span color="Comment" multiline="true" begin="/\*" end="\*/" />
+		<Span color="String" begin="&quot;" end="&quot;" />
+		<Span color="Character" begin="'" end="'" />
+
+		<Keywords color="ControlKeywords">
+			<Word>if</Word>
+			<Word>else</Word>
+			<Word>switch</Word>
+			<Word>case</Word>
+			<Word>default</Word>
+			<Word>for</Word>
+			<Word>while</Word>
+			<Word>do</Word>
+			<Word>break</Word>
+			<Word>continue</Word>
+			<Word>return</Word>
+		</Keywords>
+
+		<Keywords color="ExceptionKeywords">
+			<Word>try</Word>
+			<Word>catch</Word>
+			<Word>finally</Word>
+			<Word>throw</Word>
+			<Word>throws</Word>
+		</Keywords>
+
+		<Keywords color="VisibilityKeywords">
+			<Word>public</Word>
+			<Word>private</Word>
+			<Word>protected</Word>
+		</Keywords>
+
+		<Keywords color="Modifiers">
+			<Word>static</Word>
+			<Word>abstract</Word>
+			<Word>final</Word>
+			<Word>synchronized</Word>
+			<Word>volatile</Word>
+			<Word>native</Word>
+		</Keywords>
+
+		<Keywords color="Keywords">
+			<Word>import</Word>
+			<Word>package</Word>
+			<Word>class</Word>
+			<Word>interface</Word>
+			<Word>enum</Word>
+			<Word>extends</Word>
+			<Word>implements</Word>
+		</Keywords>
+
+		<Keywords color="TypeKeywords">
+			<Word>int</Word>
+			<Word>float</Word>
+			<Word>double</Word>
+			<Word>boolean</Word>
+			<Word>char</Word>
+			<Word>byte</Word>
+			<Word>short</Word>
+			<Word>long</Word>
+			<Word>void</Word>
+		</Keywords>
+
+		<Keywords color="BooleanConstants">
+			<Word>true</Word>
+			<Word>false</Word>
+			<Word>null</Word>
+		</Keywords>
+
+		<Keywords color="ClassObjects">
+			<Word>String</Word>
+			<Word>Object</Word>
+			<Word>this</Word>
+			<Word>super</Word>
+			<Word>System</Word>
+			<Word>Math</Word>
+			<Word>Integer</Word>
+			<Word>Double</Word>
+			<Word>Float</Word>
+			<Word>Character</Word>
+			<Word>Boolean</Word>
+		</Keywords>
+	</RuleSet>
+</SyntaxDefinition>

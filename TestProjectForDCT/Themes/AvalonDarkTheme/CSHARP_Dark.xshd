@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SyntaxDefinition name="C#" extensions=".cs" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+	<Color name="Comment" foreground="#FF57A64A" />
+	<Color name="String" foreground="#FFDAA520" />
+	<Color name="Character" foreground="#FFFF69B4" />
+	<Color name="Preprocessor" foreground="#FFFF4500" />
+	<Color name="Keywords" foreground="#FF00BFFF" />
+	<Color name="ControlKeywords" foreground="#FFFF6347" />
+	<Color name="VisibilityKeywords" foreground="#FFFFD700" />
+	<Color name="ExceptionKeywords" foreground="#FFFF1493" />
+	<Color name="Modifiers" foreground="#FF9370DB" />
+	<Color name="TypeKeywords" foreground="#FF7CFC00" />
+	<Color name="BooleanConstants" foreground="#FFFF00FF" />
+
+	<RuleSet ignoreCase="false">
+		<Span color="Comment" begin="//" end="\n" />
+		<Span color="Comment" multiline="true" begin="/\*" end="\*/" />
+		<Span color="String" begin="&quot;" end="&quot;" />
+		<Span color="Character" begin="'" end="'" />
+		<Span color="Preprocessor" begin="#" end="\s" />
+
+		<Keywords color="ControlKeywords">
+			<Word>if</Word>
+			<Word>else</Word>
+			<Word>switch</Word>
+			<Word>case</Word>
+			<Word>default</Word>
+			<Word>for</Word>
+			<Word>while</Word>
+			<Word>do</Word>
+			<Word>foreach</Word>
+			<Word>break</Word>
+			<Word>continue</Word>
+			<Word>return</Word>
+		</Keywords>
+
+		<Keywords color="ExceptionKeywords">
+			<Word>try</Word>
+			<Word>catch</Word>
+			<Word>finally</Word>
+			<Word>throw</Word>
+		</Keywords>
+
+		<Keywords color="Keywords">
+			<Word>using</Word>
+			<Word>namespace</Word>
+			<Word>class</Word>
+			<Word>interface</Word>
+			<Word>enum</Word>
+			<Word>struct</Word>
+		</Keywords>
+
+		<Keywords color="VisibilityKeywords">
+			<Word>public</Word>
+			<Word>private</Word>
+			<Word>protected</Word>
+			<Word>internal</Word>
+		</Keywords>
+
+		<Keywords color="Modifiers">
+			<Word>static</Word>
+			<Word>abstract</Word>
+			<Word>override</Word>
+			<Word>virtual</Word>
+			<Word>sealed</Word>
+			<Word>readonly</Word>
+			<Word>partial</Word>
+			<Word>async</Word>
+			<Word>await</Word>
+			<Word>unsafe</Word>
+		</Keywords>
+
+		<Keywords color="TypeKeywords">
+			<Word>void</Word>
+			<Word>int</Word>
+			<Word>float</Word>
+			<Word>double</Word>
+			<Word>decimal</Word>
+			<Word>bool</Word>
+			<Word>string</Word>
+			<Word>char</Word>
+			<Word>object</Word>
+			<Word>var</Word>
+			<Word>dynamic</Word>
+		</Keywords>
+
+		<Keywords color="BooleanConstants">
+			<Word>true</Word>
+			<Word>false</Word>
+			<Word>null</Word>
+		</Keywords>
+	</RuleSet>
+</SyntaxDefinition>
