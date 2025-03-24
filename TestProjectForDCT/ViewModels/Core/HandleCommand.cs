@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace TestProjectForDCT.ViewModels.CommandHandler;
+namespace TestProjectForDCT.ViewModels.Core;
 
 public class HandleCommand : ICommand
 {

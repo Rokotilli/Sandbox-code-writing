@@ -4,11 +4,11 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
 using TestProjectForDCT.Models.HackerearthModels;
-using TestProjectForDCT.ViewModels.CommandHandler;
 using TestProjectForDCT.Views;
 using System.Xml;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using System.IO;
+using TestProjectForDCT.ViewModels.Core;
 
 namespace TestProjectForDCT.ViewModels;
 
@@ -16,6 +16,7 @@ public class SandBoxViewModel : BaseViewModel
 {
     private readonly CodeEvaluationService _codeEvaluationService;
     private readonly Config _config;
+    private readonly LocalizationManager _localizationManager;
     private Dictionary<string, string> _languages;
     private string _codeText;
     private string _memoryLimit = "262144";
@@ -108,6 +109,9 @@ public class SandBoxViewModel : BaseViewModel
     {
         _codeEvaluationService = codeEvaluationService;
         _config = config;
+
+        _localizationManager = LocalizationManager.GetInstance();
+
         _languages = new()
         {
             { "C", "C" },
@@ -212,28 +216,30 @@ public class SandBoxViewModel : BaseViewModel
 
             var resultMessage = new StringBuilder();
 
-            resultMessage.AppendLine($"Compile status: {result.result.compile_status}");
+            resultMessage.AppendLine($"{_localizationManager["CompileStatus"]}{result.result.compile_status}");
 
-            if (result.result.compile_status == "OK")
+            if (result.result.compile_status == "OK" && runStatus.status == "NA")
             {
-                resultMessage.AppendLine("Executing...");
+                resultMessage.AppendLine(_localizationManager["Executing"]);
+                ResultText = resultMessage.ToString();
+                return;
             }
 
             switch (runStatus.status)
             {
                 case "AC":
-                    resultMessage.AppendLine($"Memory used: {runStatus.memory_used} bytes");
-                    resultMessage.AppendLine($"Time used: {runStatus.time_used}");
-                    resultMessage.AppendLine($"Exit code: {runStatus.exit_code}");
-                    resultMessage.AppendLine($"Output: {runStatus.output}");
+                    resultMessage.AppendLine($"{_localizationManager["MemoryUsed"]}{runStatus.memory_used} bytes");
+                    resultMessage.AppendLine($"{_localizationManager["TimeUsed"]}{runStatus.time_used}");
+                    resultMessage.AppendLine($"{_localizationManager["ExitCode"]}{runStatus.exit_code}");
+                    resultMessage.AppendLine($"{_localizationManager["Output"]}{runStatus.output}");
                     break;
 
                 case "MLE":
-                    resultMessage.AppendLine("Memory Limit Exceeded: Execution used more memory than the allowed limit.");
+                    resultMessage.AppendLine(_localizationManager["MLE"]);
                     break;
 
                 case "TLE":
-                    resultMessage.AppendLine("Time Limit Exceeded: Execution took more time than the allowed limit.");
+                    resultMessage.AppendLine(_localizationManager["TLE"]);
                     break;
 
                 case "RE":
@@ -241,7 +247,7 @@ public class SandBoxViewModel : BaseViewModel
                     break;
 
                 default:
-                    resultMessage.AppendLine("Unknown status received.");
+                    resultMessage.AppendLine(_localizationManager["USR"]);
                     break;
             }
 
@@ -257,13 +263,13 @@ public class SandBoxViewModel : BaseViewModel
     {
         return statusDetail switch
         {
-            "SIGXFSZ" => "SIGXFSZ: The output file size exceeded the allowed system value.",
-            "SIGSEGV" => "SIGSEGV: Invalid memory reference or segmentation fault.",
-            "SIGFPE" => "SIGFPE: Division by zero.",
-            "SIGBUS" => "SIGBUS: Accessed memory location that has not been physically mapped.",
-            "SIGABRT" => "SIGABRT: Aborting due to a fatal error.",
-            "NZEC" or "OTHER" => "NZEC / OTHER: User code stopped due to an unexpected reason.",
-            _ => "Unknown runtime error."
+            "SIGXFSZ" => _localizationManager["SIGXFSZ"],
+            "SIGSEGV" => _localizationManager["SIGSEGV"],
+            "SIGFPE" => _localizationManager["SIGFPE"],
+            "SIGBUS" => _localizationManager["SIGBUS"],
+            "SIGABRT" => _localizationManager["SIGABRT"],
+            "NZEC" or "OTHER" => _localizationManager["NZEC/OTHER"],
+            _ => _localizationManager["URE"]
         };
     }
 

@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using TestProjectForDCT.Models.LeetCodeModels;
 using TestProjectForDCT.Services;
-using TestProjectForDCT.ViewModels.CommandHandler;
+using TestProjectForDCT.ViewModels.Core;
 
 namespace TestProjectForDCT.ViewModels;
 

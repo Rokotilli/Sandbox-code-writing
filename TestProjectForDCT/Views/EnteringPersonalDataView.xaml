@@ -9,7 +9,7 @@
     <Grid Background="{DynamicResource BackgroundBrush}">
         <Button
             Command="{Binding NavigateLeetCodeProblemsView}"
-            Content="⬅️ Back"
+            Content="{Binding Source={StaticResource Loc}, Path=[Back]}"
             FontFamily="Calibri"
             Foreground="{DynamicResource PrimaryTextBrush}"
             FontSize="15"
@@ -41,14 +41,14 @@
         </Button>
 
         <StackPanel MaxWidth="700">
-            <TextBlock Text="Enter your paid account session details to get access"
+            <TextBlock Text="{Binding Source={StaticResource Loc}, Path=[TitleEnteringPersonalData]}"
                        FontSize="24"
                        FontWeight="Bold"
                        FontFamily="Calibri"
                        HorizontalAlignment="Center"
                        Margin="0 100 0 0"/>
 
-            <TextBlock Text="Session Token:"
+            <TextBlock Text="{Binding Source={StaticResource Loc}, Path=[SessionToken]}"
                        FontFamily="Calibri"
                        FontSize="15"/>
 
@@ -59,7 +59,7 @@
                      BorderThickness="1"
                      Padding="5" />
 
-            <TextBlock Text="CSRF Token:"
+            <TextBlock Text="{Binding Source={StaticResource Loc}, Path=[CsrfToken]}"
                        FontFamily="Calibri"
                        FontSize="15"/>
 
@@ -71,7 +71,7 @@
                      Padding="5" />
 
             <Button Command="{Binding SaveDataCommand}"
-                    Content="Save"
+                    Content="{Binding Source={StaticResource Loc}, Path=[Save]}"
                     FontFamily="Calibri"
                     FontSize="25"
                     Height="37"

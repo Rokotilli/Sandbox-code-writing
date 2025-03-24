@@ -10,5 +10,6 @@
     "session_token": "",
     "csrf_token": ""
   },
-  "ApplicationTheme": "Light"
+  "ApplicationTheme": "Light",
+  "ApplicationLanguage": "en-US"
 }

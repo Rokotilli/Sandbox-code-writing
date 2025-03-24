@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 using TestProjectForDCT.Extensions;
-using TestProjectForDCT.ViewModels.CommandHandler;
+using TestProjectForDCT.ViewModels.Core;
 
 namespace TestProjectForDCT.ViewModels;
 

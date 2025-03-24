@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace TestProjectForDCT.ViewModels;
+namespace TestProjectForDCT.ViewModels.Core;
 
 public class BaseViewModel : INotifyPropertyChanged
 {

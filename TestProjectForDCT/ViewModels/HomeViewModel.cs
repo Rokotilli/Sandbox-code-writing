@@ -1,42 +1,79 @@
-﻿using System.Windows;
+﻿using Microsoft.Extensions.Hosting;
+using System.Windows;
 using System.Windows.Input;
 using TestProjectForDCT.Extensions;
-using TestProjectForDCT.ViewModels.CommandHandler;
+using TestProjectForDCT.ViewModels.Core;
 
 namespace TestProjectForDCT.ViewModels;
 
 public class HomeViewModel : BaseViewModel
 {
     private SandBoxViewModel _sandBoxViewModel;
+    private LocalizationManager _localizationManager;
     private Config _config;
-    private string _buttonText;
+    private string _switchThemeButtonText;
+    private string _switchLanguageButtonText;
 
-    public string ButtonText
+    public string SwitchThemeButtonText
     {
-        get => _buttonText;
+        get => _switchThemeButtonText;
         set
         {
-            _buttonText = value;
+
+            var theme = value == "Light" ? _localizationManager["DarkThemeName"] : _localizationManager["LightThemeName"];
+            _switchThemeButtonText = _localizationManager["SwitchTheme"] + theme;
+            OnPropertyChanged();
+        }
+    }
+
+    public string SwitchLanguageButtonText
+    {
+        get => _switchLanguageButtonText;
+        set
+        {
+            var language = value == "en-US" ? _localizationManager["UkrainianLanguageName"] : _localizationManager["EnglishLanguageName"];
+            _switchLanguageButtonText = _localizationManager["SwitchLanguage"] + language;
             OnPropertyChanged();
         }
     }
 
     public ICommand NavigateToSandboxCommand { get; set; }
     public ICommand SwitchThemeCommand { get; set; }
+    public ICommand SwitchLanguageCommand { get; set; }
 
     public HomeViewModel(Config config, SandBoxViewModel sandBoxViewModel)
     {
         _config = config;
         _sandBoxViewModel = sandBoxViewModel;
+        _localizationManager = LocalizationManager.GetInstance();
 
-        ButtonText = _config.ApplicationTheme == "Light" ? "Switch theme: Dark" : "Switch theme: Light";
+        _localizationManager.ChangeLanguage(config.ApplicationLanguage);
+
+        SwitchThemeButtonText = _config.ApplicationTheme;
+        SwitchLanguageButtonText = _config.ApplicationLanguage;
 
         ApplicationSwitchThemeFile();
 
         SwitchThemeCommand = new HandleCommand(obj => SwitchTheme());
+        SwitchLanguageCommand = new HandleCommand(obj => SwitchLanguage());
     }
 
-    public void SwitchTheme()
+    private void SwitchLanguage()
+    {
+        var culture = _config.ApplicationLanguage == "en-US" ? "uk-UA" : "en-US";
+
+        _localizationManager.ChangeLanguage(culture);
+
+        _config.ApplicationLanguage = culture;
+
+        _config.SaveConfig();
+
+        SwitchLanguageButtonText = _config.ApplicationLanguage;
+
+        SwitchThemeButtonText = _config.ApplicationTheme;
+    }
+
+    private void SwitchTheme()
     {   
         _config.ApplicationTheme = _config.ApplicationTheme == "Light" ? "Dark" : "Light";
 
@@ -44,12 +81,12 @@ public class HomeViewModel : BaseViewModel
 
         ApplicationSwitchThemeFile();
 
-        ButtonText = _config.ApplicationTheme == "Light" ? "Switch theme: Dark" : "Switch theme: Light";
+        SwitchThemeButtonText = _config.ApplicationTheme;
 
         _sandBoxViewModel.UpdateSyntaxHighlighting();
     }
 
-    public void ApplicationSwitchThemeFile()
+    private void ApplicationSwitchThemeFile()
     {
         var themeFile = _config.ApplicationTheme == "Light" ? "LightTheme.xaml" : "DarkTheme.xaml";
 

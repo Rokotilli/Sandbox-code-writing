@@ -22,7 +22,7 @@
     </Window.Resources>
 
     <Grid Background="{DynamicResource BackgroundBrush}">
-        <TextBlock Text="LeetCode Problems"
+        <TextBlock Text="{Binding Source={StaticResource Loc}, Path=[LeetCodeProblems]}"
                    FontSize="29"
                    FontFamily="Calibri"
                    FontWeight="Bold"
@@ -44,7 +44,7 @@
             <Border BorderBrush="{DynamicResource HeaderBorderBrush}"
                     BorderThickness="1"
                     Background="{DynamicResource HeaderBackgroundBrush}">
-                <TextBlock Text="Title"
+                <TextBlock Text="{Binding Source={StaticResource Loc}, Path=[Title]}"
                            FontFamily="Calibri"
                            FontSize="15"
                            VerticalAlignment="Center"
@@ -57,7 +57,7 @@
                     BorderBrush="{DynamicResource HeaderBorderBrush}"
                     BorderThickness="1"
                     Background="{DynamicResource HeaderBackgroundBrush}">
-                <TextBlock Text="Difficult"
+                <TextBlock Text="{Binding Source={StaticResource Loc}, Path=[Difficult]}"
                             FontFamily="Calibri"
                             FontSize="15"
                             VerticalAlignment="Center"
@@ -69,7 +69,7 @@
                     BorderBrush="{DynamicResource HeaderBorderBrush}"
                     BorderThickness="1"
                     Background="{DynamicResource HeaderBackgroundBrush}">
-                <TextBlock Text="Paid only"
+                <TextBlock Text="{Binding Source={StaticResource Loc}, Path=[PaidOnly]}"
                             FontFamily="Calibri"
                             FontSize="15"
                             VerticalAlignment="Center"
