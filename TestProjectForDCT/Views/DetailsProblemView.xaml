@@ -10,7 +10,7 @@
     <Grid Background="{DynamicResource BackgroundBrush}">
         <Button
             Command="{Binding NavigateLeetCodeProblemsView}"
-            Content="⬅️ Back"
+            Content="{Binding Source={StaticResource Loc}, Path=[Back]}"
             FontFamily="Calibri"
             FontSize="15"
             Height="30"

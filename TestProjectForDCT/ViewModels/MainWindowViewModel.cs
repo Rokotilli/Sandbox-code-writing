@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using TestProjectForDCT.ViewModels.CommandHandler;
+using TestProjectForDCT.ViewModels.Core;
 
 namespace TestProjectForDCT.ViewModels;
 
