@@ -1,21 +1,28 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
 using TestProjectForDCT.Models.LeetCodeModels;
+using TestProjectForDCT.Services.Interfaces;
 
 namespace TestProjectForDCT.Services;
 
-public class LeetCodeService
+public class LeetCodeService : ILeetCodeService
 {
     private readonly HttpClient _httpClient;
+    private readonly ILogger<ILeetCodeService> _logger;
 
-    public LeetCodeService(IHttpClientFactory httpClientFactory, Config config)
+    public LeetCodeService(IHttpClientFactory httpClientFactory, IOptions<Config> config, ILogger<ILeetCodeService> logger)
     {
-        _httpClient = httpClientFactory.CreateClient(config.LeetCode.httpClientName);
+        _httpClient = httpClientFactory.CreateClient(config.Value.LeetCode.httpClientName);
+        _logger = logger;
     }
 
     public async Task<GetProblemsModel> GetProblemsAsync()
     {
+        _logger.LogInformation("Getting problems from LeetCode");
+
         var response = await _httpClient.GetAsync("api/problems/all/");
 
         if (!response.IsSuccessStatusCode)
@@ -27,11 +34,15 @@ public class LeetCodeService
 
         var problems = JsonConvert.DeserializeObject<GetProblemsModel>(content);
 
+        _logger.LogInformation("Problems received successfully");
+
         return problems;
     }
 
     public async Task<DetailsProblemModel> GetDetailsProblemAsync(string ProblemSlug, string SessionToken, string CsrfToken)
     {
+        _logger.LogInformation($"Getting details of problem with slug {ProblemSlug} from LeetCode");
+
         _httpClient.DefaultRequestHeaders.Add("cookie", $"{SessionToken}; csrftoken={CsrfToken}");
         _httpClient.DefaultRequestHeaders.Add("x-csrftoken", CsrfToken);
 
@@ -64,6 +75,8 @@ public class LeetCodeService
         var responseContent = await response.Content.ReadAsStringAsync();
 
         var details = JsonConvert.DeserializeObject<DetailsProblemModel>(responseContent);
+
+        _logger.LogInformation($"Details of problem with id {details.data.question.questionId} received successfully");
 
         return details;
     }

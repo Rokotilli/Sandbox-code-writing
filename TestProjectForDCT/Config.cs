@@ -1,3 +1,6 @@
+using System.IO;
+using System.Text.Json;
+
 namespace TestProjectForDCT;
 
 public class Config
@@ -6,6 +9,17 @@ public class Config
     public LeetCodeConfig LeetCode { get; set; }
     public string ApplicationTheme { get; set; }
     public string ApplicationLanguage { get; set; }
+
+    public void SaveConfig()
+    {
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = true
+        };
+
+        var json = JsonSerializer.Serialize(this, options);
+        File.WriteAllText(AppContext.BaseDirectory + "appconfig.json", json);
+    }
 }
 
 public class HackerEarthConfig

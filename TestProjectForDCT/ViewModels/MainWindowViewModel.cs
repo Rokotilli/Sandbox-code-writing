@@ -1,12 +1,16 @@
-﻿using System.Windows.Input;
+﻿using Microsoft.Extensions.Logging;
+using System.Windows.Input;
 using TestProjectForDCT.ViewModels.Core;
+using TestProjectForDCT.ViewModels.Core.Interfaces;
 
 namespace TestProjectForDCT.ViewModels;
 
-public class MainWindowViewModel : BaseViewModel
+public class MainWindowViewModel : BaseViewModel, IMainWindowViewModel
 {
-    private readonly HomeViewModel _homeViewModel;
-    private readonly SandBoxViewModel _sandBoxViewModel;
+    private readonly IHomeViewModel _homeViewModel;
+    private readonly ISandBoxViewModel _sandBoxViewModel;
+    private readonly ILogger<IMainWindowViewModel> _logger;
+
     private ICommand _openSandboxCommand;
     private ICommand _closeSandboxCommand;
     private object _currentViewModel;
@@ -21,22 +25,50 @@ public class MainWindowViewModel : BaseViewModel
         }
     } 
 
-    public MainWindowViewModel(HomeViewModel homeViewModel, SandBoxViewModel sandBoxViewModel)
+    public MainWindowViewModel(IHomeViewModel homeViewModel, ISandBoxViewModel sandBoxViewModel, ILogger<IMainWindowViewModel> logger)
     {
         _homeViewModel = homeViewModel;
         _sandBoxViewModel = sandBoxViewModel;
+        _logger = logger;
 
         CurrentViewModel = _homeViewModel;
 
         _openSandboxCommand = new HandleCommand(obj => OpenSandbox());
-        _closeSandboxCommand = new HandleCommand(obj => CurrentViewModel = _homeViewModel);
+        _closeSandboxCommand = new HandleCommand(obj => OpenHome());
 
         _homeViewModel.NavigateToSandboxCommand = _openSandboxCommand;
         _sandBoxViewModel.NavigateToHomeViewCommand = _closeSandboxCommand;
     }
 
+    private void OpenHome()
+    {
+        try
+        {
+            _logger.LogInformation("Opening HomeView");
+
+            CurrentViewModel = _homeViewModel;
+
+            _logger.LogInformation("HomeView opened successfully");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error opening HomeView");
+        }
+    }
+
     private void OpenSandbox()
     {
-        CurrentViewModel = _sandBoxViewModel;
+        try
+        {
+            _logger.LogInformation("Opening SandBoxView");
+
+            CurrentViewModel = _sandBoxViewModel;
+
+            _logger.LogInformation("SandBoxView opened successfully");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error opening SandBoxView");
+        }        
     }
 }

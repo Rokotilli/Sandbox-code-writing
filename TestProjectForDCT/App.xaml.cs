@@ -3,8 +3,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Serilog;
 using TestProjectForDCT.Services;
+using TestProjectForDCT.Services.Interfaces;
 using TestProjectForDCT.ViewModels;
+using TestProjectForDCT.ViewModels.Core.Interfaces;
 using TestProjectForDCT.Views;
 
 namespace TestProjectForDCT;
@@ -28,18 +31,22 @@ public partial class App : Application
 
     public IHost InitialHost()
     {
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
+
         var host = Host.CreateDefaultBuilder()
             .ConfigureAppConfiguration((context, config) =>
             {
                 config.AddJsonFile("appconfig.json", optional: false, reloadOnChange: true).AddUserSecrets<App>();
             })
+            .UseSerilog()
             .ConfigureServices((context, services) =>
             {
                 services.Configure<Config>(context.Configuration);
 
-                var config = services.BuildServiceProvider().GetRequiredService<IOptions<Config>>().Value;
-
-                services.AddSingleton(config);
+                var config = context.Configuration.Get<Config>();
 
                 services.AddHttpClient(config.HackerEarth.httpClientName, client =>
                 {
@@ -53,21 +60,22 @@ public partial class App : Application
                 });
 
                 services.AddSingleton<SandBoxView>();
-                services.AddSingleton<SandBoxViewModel>();
+                services.AddSingleton<ISandBoxViewModel, SandBoxViewModel>();
 
                 services.AddTransient<MainWindow>();
-                services.AddTransient<MainWindowViewModel>();
-                services.AddTransient<HomeViewModel>();                
-                services.AddTransient<HomeView>();                
+                services.AddTransient<HomeView>();
                 services.AddTransient<LeetCodeProblemsView>();
-                services.AddTransient<LeetCodeProblemsViewModel>();
                 services.AddTransient<DetailsProblemView>();
-                services.AddTransient<DetailsProblemViewModel>();
                 services.AddTransient<EnteringPersonalDataView>();
-                services.AddTransient<EnteringPersonalDataViewModel>();
 
-                services.AddScoped<CodeEvaluationService>();
-                services.AddScoped<LeetCodeService>();
+                services.AddTransient<IMainWindowViewModel, MainWindowViewModel>();
+                services.AddTransient<IHomeViewModel, HomeViewModel>();        
+                services.AddTransient<ILeetCodeProblemsViewModel, LeetCodeProblemsViewModel>();
+                services.AddTransient<IDetailsProblemViewModel, DetailsProblemViewModel>();
+                services.AddTransient<IEnteringPersonalDataViewModel, EnteringPersonalDataViewModel>();
+
+                services.AddScoped<ICodeEvaluationService, CodeEvaluationService>();
+                services.AddScoped<ILeetCodeService, LeetCodeService>();
             })
             .Build();
 

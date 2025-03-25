@@ -10,15 +10,21 @@ using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using System.IO;
 using TestProjectForDCT.ViewModels.Core;
 using System.Net.Http;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using TestProjectForDCT.ViewModels.Core.Interfaces;
+using TestProjectForDCT.Services.Interfaces;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace TestProjectForDCT.ViewModels;
 
-public class SandBoxViewModel : BaseViewModel
+public class SandBoxViewModel : BaseViewModel, ISandBoxViewModel
 {
-    private readonly CodeEvaluationService _codeEvaluationService;
+    private readonly ICodeEvaluationService _codeEvaluationService;
     private readonly Config _config;
     private readonly LocalizationManager _localizationManager;
+    private readonly ILogger<ISandBoxViewModel> _logger;
+
     private Dictionary<string, string> _languages;
     private string _codeText;
     private string _memoryLimit = "262144";
@@ -107,10 +113,11 @@ public class SandBoxViewModel : BaseViewModel
     public ICommand OpenLeetCodeProblemsCommand { get; set; }
     public ICommand NavigateToHomeViewCommand { get; set; }
 
-    public SandBoxViewModel(CodeEvaluationService codeEvaluationService, IServiceProvider serviceProvider, Config config)
+    public SandBoxViewModel(ICodeEvaluationService codeEvaluationService, IServiceProvider serviceProvider, IOptions<Config> config, ILogger<ISandBoxViewModel> logger)
     {
         _codeEvaluationService = codeEvaluationService;
-        _config = config;
+        _logger = logger;
+        _config = config.Value;
 
         _localizationManager = LocalizationManager.GetInstance();
 
@@ -151,12 +158,7 @@ public class SandBoxViewModel : BaseViewModel
 
         RunCodeCommand = new HandleCommand(async obj => await RunCodeAsync());
         CheckCodeEvaluationCommand = new HandleCommand(async obj => await CheckCodeEvaluationStatus());
-        OpenLeetCodeProblemsCommand = new HandleCommand(obj =>
-        {
-            var _leetCodeProblemsView = serviceProvider.GetRequiredService<LeetCodeProblemsView>();
-
-            _leetCodeProblemsView.Show();
-        });
+        OpenLeetCodeProblemsCommand = new HandleCommand(obj => OpenLeetCodeProblems(serviceProvider));
     }
 
     public void UpdateSyntaxHighlighting()
@@ -177,10 +179,29 @@ public class SandBoxViewModel : BaseViewModel
         SyntaxHighlighting = _config.ApplicationTheme == "Dark" ? LoadDarkHighlighting(language) : HighlightingManager.Instance.GetDefinition(language);
     }
 
+    private void OpenLeetCodeProblems(IServiceProvider serviceProvider)
+    {
+        try
+        {
+            _logger.LogInformation("Opening LeetCodeProblemsView");
+
+            var _leetCodeProblemsView = serviceProvider.GetRequiredService<LeetCodeProblemsView>();
+            _leetCodeProblemsView.Show();
+
+            _logger.LogInformation("LeetCodeProblemsView opened successfully");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error opening LeetCodeProblemsView");
+        }        
+    }
+
     private async Task RunCodeAsync()
     {
         try
         {
+            _logger.LogInformation("Running code");
+
             var language = _languages.FirstOrDefault(x => x.Value == SelectedLanguage).Key;
 
             var postCodeEvaluationModel = new PostCodeEvaluationModel
@@ -201,9 +222,13 @@ public class SandBoxViewModel : BaseViewModel
             ResultText = result.result.compile_status;
 
             IsCheckStatusButtonEnabled = true;
+
+            _logger.LogInformation("Code run successfully");
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Error running code");
+
             ResultText = ex.Message;
         }
     }
@@ -212,6 +237,8 @@ public class SandBoxViewModel : BaseViewModel
     {
         try
         {
+            _logger.LogInformation("Checking code evaluation status");
+
             var result = await _codeEvaluationService.GetResultCodeEvaluation(he_id);
 
             var runStatus = result.result.run_status;
@@ -257,20 +284,38 @@ public class SandBoxViewModel : BaseViewModel
                     break;
             }
 
+            _logger.LogInformation("Code evaluation status checked successfully");
+
             ResultText = resultMessage.ToString();
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Error checking code evaluation status");
+
             ResultText = ex.Message;
         }
     }
 
     private async Task<string> GetOutputStringFromFile(string url)
     {
-        using (HttpClient client = new HttpClient())
+        try
         {
-            return await client.GetStringAsync(url);
+            _logger.LogInformation("Getting output string from file");
+
+            using (HttpClient client = new HttpClient())
+            {
+                var result = await client.GetStringAsync(url);
+
+                _logger.LogInformation("Output string received successfully");
+
+                return result;
+            }            
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting output string from file");
+            return ex.Message;
+        }        
     }
 
     private string GetRuntimeErrorDescription(string statusDetail)
@@ -289,26 +334,40 @@ public class SandBoxViewModel : BaseViewModel
 
     private IHighlightingDefinition LoadDarkHighlighting(string language)
     {
-        var resourceName = language switch
+        try
         {
-            "C++" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/CPP_Dark.xshd",
-            "C#" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/CSHARP_Dark.xshd",
-            "Java" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/Java_Dark.xshd",
-            "JavaScript" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/JavaScript_Dark.xshd",
-            "Pascal" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/Pascal_Dark.xshd",
-            "PHP" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/PHP_Dark.xshd",
-            "Python" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/Python_Dark.xshd",
-            "Ruby" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/Ruby_Dark.xshd",
-            _ => null
-        };
+            _logger.LogInformation("Loading dark highlighting");
 
-        using (var stream = File.OpenRead(resourceName))
-        {
-            using (var reader = new XmlTextReader(stream))
+            var resourceName = language switch
             {
-                var xshd = HighlightingLoader.LoadXshd(reader);
-                return HighlightingLoader.Load(xshd, HighlightingManager.Instance);
+                "C++" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/CPP_Dark.xshd",
+                "C#" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/CSHARP_Dark.xshd",
+                "Java" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/Java_Dark.xshd",
+                "JavaScript" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/JavaScript_Dark.xshd",
+                "Pascal" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/Pascal_Dark.xshd",
+                "PHP" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/PHP_Dark.xshd",
+                "Python" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/Python_Dark.xshd",
+                "Ruby" => $"{AppContext.BaseDirectory}/Themes/AvalonDarkTheme/Ruby_Dark.xshd",
+                _ => null
+            };
+
+            using (var stream = File.OpenRead(resourceName))
+            {
+                using (var reader = new XmlTextReader(stream))
+                {
+                    var xshd = HighlightingLoader.LoadXshd(reader);
+                    var result = HighlightingLoader.Load(xshd, HighlightingManager.Instance);
+
+                    _logger.LogInformation("Dark highlighting loaded successfully");
+
+                    return result;
+                }
             }
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error loading dark highlighting");
+            return null;
+        }        
     }
 }

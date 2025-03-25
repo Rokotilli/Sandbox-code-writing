@@ -1,11 +1,11 @@
 ﻿using System.Windows;
-using TestProjectForDCT.ViewModels;
+using TestProjectForDCT.ViewModels.Core.Interfaces;
 
 namespace TestProjectForDCT.Views;
 
 public partial class LeetCodeProblemsView : Window
 {
-    public LeetCodeProblemsView(LeetCodeProblemsViewModel leetCodeProblemsViewModel)
+    public LeetCodeProblemsView(ILeetCodeProblemsViewModel leetCodeProblemsViewModel)
     {
         InitializeComponent();
 

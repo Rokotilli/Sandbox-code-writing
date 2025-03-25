@@ -1,14 +1,16 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Windows;
 using System.Windows.Input;
-using TestProjectForDCT.Extensions;
 using TestProjectForDCT.ViewModels.Core;
+using TestProjectForDCT.ViewModels.Core.Interfaces;
 
 namespace TestProjectForDCT.ViewModels;
 
-public class HomeViewModel : BaseViewModel
+public class HomeViewModel : BaseViewModel, IHomeViewModel
 {
-    private SandBoxViewModel _sandBoxViewModel;
+    private readonly ISandBoxViewModel _sandBoxViewModel;
+    private readonly ILogger<IHomeViewModel> _logger;
     private LocalizationManager _localizationManager;
     private Config _config;
     private string _switchThemeButtonText;
@@ -41,13 +43,14 @@ public class HomeViewModel : BaseViewModel
     public ICommand SwitchThemeCommand { get; set; }
     public ICommand SwitchLanguageCommand { get; set; }
 
-    public HomeViewModel(Config config, SandBoxViewModel sandBoxViewModel)
+    public HomeViewModel(IOptions<Config> config, ISandBoxViewModel sandBoxViewModel, ILogger<IHomeViewModel> logger)
     {
-        _config = config;
+        _config = config.Value;
         _sandBoxViewModel = sandBoxViewModel;
+        _logger = logger;
         _localizationManager = LocalizationManager.GetInstance();
 
-        _localizationManager.ChangeLanguage(config.ApplicationLanguage);
+        _localizationManager.ChangeLanguage(_config.ApplicationLanguage);
 
         SwitchThemeButtonText = _config.ApplicationTheme;
         SwitchLanguageButtonText = _config.ApplicationLanguage;
@@ -60,47 +63,80 @@ public class HomeViewModel : BaseViewModel
 
     private void SwitchLanguage()
     {
-        var culture = _config.ApplicationLanguage == "en-US" ? "uk-UA" : "en-US";
+        try
+        {
+            _logger.LogInformation("Switching language");
 
-        _localizationManager.ChangeLanguage(culture);
+            var culture = _config.ApplicationLanguage == "en-US" ? "uk-UA" : "en-US";
 
-        _config.ApplicationLanguage = culture;
+            _localizationManager.ChangeLanguage(culture);
 
-        _config.SaveConfig();
+            _config.ApplicationLanguage = culture;
 
-        SwitchLanguageButtonText = _config.ApplicationLanguage;
+            _config.SaveConfig();
 
-        SwitchThemeButtonText = _config.ApplicationTheme;
+            SwitchLanguageButtonText = _config.ApplicationLanguage;
+
+            SwitchThemeButtonText = _config.ApplicationTheme;
+
+            _logger.LogInformation("Language switched successfully");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while switching language");
+        }
     }
 
     private void SwitchTheme()
-    {   
-        _config.ApplicationTheme = _config.ApplicationTheme == "Light" ? "Dark" : "Light";
+    {
+        try
+        {
+            _logger.LogInformation("Switching theme");
 
-        _config.SaveConfig();
+            _config.ApplicationTheme = _config.ApplicationTheme == "Light" ? "Dark" : "Light";
 
-        ApplicationSwitchThemeFile();
+            _config.SaveConfig();
 
-        SwitchThemeButtonText = _config.ApplicationTheme;
+            ApplicationSwitchThemeFile();
 
-        _sandBoxViewModel.UpdateSyntaxHighlighting();
+            SwitchThemeButtonText = _config.ApplicationTheme;
+
+            _sandBoxViewModel.UpdateSyntaxHighlighting();
+
+            _logger.LogInformation("Theme switched successfully");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while switching theme");
+        }        
     }
 
     private void ApplicationSwitchThemeFile()
     {
-        var themeFile = _config.ApplicationTheme == "Light" ? "LightTheme.xaml" : "DarkTheme.xaml";
-
-        var dict = new ResourceDictionary();
-
-        dict.Source = new Uri($"Themes/{themeFile}", UriKind.Relative);
-
-        var oldDict = Application.Current.Resources.MergedDictionaries.FirstOrDefault();
-
-        if (oldDict != null)
+        try
         {
-            Application.Current.Resources.MergedDictionaries.Remove(oldDict);
-        }
+            _logger.LogInformation("Switching theme file");
 
-        Application.Current.Resources.MergedDictionaries.Add(dict);
+            var themeFile = _config.ApplicationTheme == "Light" ? "LightTheme.xaml" : "DarkTheme.xaml";
+
+            var dict = new ResourceDictionary();
+
+            dict.Source = new Uri($"Themes/{themeFile}", UriKind.Relative);
+
+            var oldDict = Application.Current.Resources.MergedDictionaries.FirstOrDefault();
+
+            if (oldDict != null)
+            {
+                Application.Current.Resources.MergedDictionaries.Remove(oldDict);
+            }
+
+            Application.Current.Resources.MergedDictionaries.Add(dict);
+
+            _logger.LogInformation("Theme file switched successfully");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while switching theme file");
+        }
     }
 }

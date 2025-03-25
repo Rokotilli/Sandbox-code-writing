@@ -1,17 +1,22 @@
-﻿using System.Collections.ObjectModel;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using TestProjectForDCT.Models.LeetCodeModels;
-using TestProjectForDCT.Services;
+using TestProjectForDCT.Services.Interfaces;
 using TestProjectForDCT.ViewModels.Core;
+using TestProjectForDCT.ViewModels.Core.Interfaces;
 
 namespace TestProjectForDCT.ViewModels;
 
-public class LeetCodeProblemsViewModel : BaseViewModel
+public class LeetCodeProblemsViewModel : BaseViewModel, ILeetCodeProblemsViewModel
 {
-    private readonly LeetCodeService _leetCodeService;
-    private readonly DetailsProblemViewModel _detailsProblemViewModel;
-    private readonly EnteringPersonalDataViewModel _enteringPersonalDataViewModel;
+    private readonly ILeetCodeService _leetCodeService;
+    private readonly IDetailsProblemViewModel _detailsProblemViewModel;
+    private readonly IEnteringPersonalDataViewModel _enteringPersonalDataViewModel;
     private readonly Config _config;
+    private readonly ILogger<ILeetCodeProblemsViewModel> _logger;
+
     private object _currentViewModel;
     private ObservableCollection<StatStatusPairs> _allProblems;
     private ObservableCollection<StatStatusPairs> _displayedProblems;
@@ -103,15 +108,17 @@ public class LeetCodeProblemsViewModel : BaseViewModel
     public ICommand OrderCommand { get; }
 
     public LeetCodeProblemsViewModel(
-        LeetCodeService leetCodeService,
-        DetailsProblemViewModel detailsProblemViewModel,
-        EnteringPersonalDataViewModel enteringPersonalDataViewModel,
-        Config config)
+        ILeetCodeService leetCodeService,
+        IDetailsProblemViewModel detailsProblemViewModel,
+        IEnteringPersonalDataViewModel enteringPersonalDataViewModel,
+        IOptions<Config> config,
+        ILogger<ILeetCodeProblemsViewModel> logger)
     {
         _leetCodeService = leetCodeService;
         _detailsProblemViewModel = detailsProblemViewModel;
         _enteringPersonalDataViewModel = enteringPersonalDataViewModel;
-        _config = config;
+        _logger = logger;
+        _config = config.Value;
 
         NextPageCommand = new HandleCommand(obj => CurrentPage++);
         PreviousPageCommand = new HandleCommand(obj => CurrentPage--);
@@ -125,13 +132,24 @@ public class LeetCodeProblemsViewModel : BaseViewModel
 
     public async Task InitializeData()
     {
-        var problems = await _leetCodeService.GetProblemsAsync();
+        try
+        {
+            _logger.LogInformation("Initializing data");
 
-        _allProblems = new ObservableCollection<StatStatusPairs>(problems.stat_status_pairs);
+            var problems = await _leetCodeService.GetProblemsAsync();
 
-        TotalPages = (_allProblems.Count + _itemsPerPage - 1) / _itemsPerPage;
+            _allProblems = new ObservableCollection<StatStatusPairs>(problems.stat_status_pairs);
 
-        UpdateDisplayedProblems();
+            TotalPages = (_allProblems.Count + _itemsPerPage - 1) / _itemsPerPage;
+
+            UpdateDisplayedProblems();
+
+            _logger.LogInformation("Data initialized successfully");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error initializing data");
+        }        
     }
 
     private void OrderAllProblems(object parameter)
@@ -155,64 +173,108 @@ public class LeetCodeProblemsViewModel : BaseViewModel
 
     private void OrderByTitle()
     {
-        if (_isOrderedByDescendingTitle)
+        try
         {
-            _allProblems = new ObservableCollection<StatStatusPairs>(_allProblems.OrderBy(x => x.stat.question__title));
+            _logger.LogInformation("Ordering by title");
+
+            if (_isOrderedByDescendingTitle)
+            {
+                _allProblems = new ObservableCollection<StatStatusPairs>(_allProblems.OrderBy(x => x.stat.question__title));
+            }
+            else
+            {
+                _allProblems = new ObservableCollection<StatStatusPairs>(_allProblems.OrderByDescending(x => x.stat.question__title));
+            }
+            _isOrderedByDescendingTitle = !_isOrderedByDescendingTitle;
+            UpdateDisplayedProblems();
+
+            _logger.LogInformation("Ordered by title successfully");
         }
-        else
+        catch (Exception ex)
         {
-            _allProblems = new ObservableCollection<StatStatusPairs>(_allProblems.OrderByDescending(x => x.stat.question__title));
-        }
-        _isOrderedByDescendingTitle = !_isOrderedByDescendingTitle;
-        UpdateDisplayedProblems();
+            _logger.LogError(ex, "Error ordering by title");
+        }        
     }
 
     private void OrderByPaidOnly()
     {
-        if (_isOrderedByDescendingPaidOnly)
+        try
         {
-            _allProblems = new ObservableCollection<StatStatusPairs>(_allProblems.OrderBy(x => x.paid_only));
+            _logger.LogInformation("Ordering by paid only");
+
+            if (_isOrderedByDescendingPaidOnly)
+            {
+                _allProblems = new ObservableCollection<StatStatusPairs>(_allProblems.OrderBy(x => x.paid_only));
+            }
+            else
+            {
+                _allProblems = new ObservableCollection<StatStatusPairs>(_allProblems.OrderByDescending(x => x.paid_only));
+            }
+            _isOrderedByDescendingPaidOnly = !_isOrderedByDescendingPaidOnly;
+            UpdateDisplayedProblems();
+
+            _logger.LogInformation("Ordered by paid only successfully");
         }
-        else
+        catch (Exception ex)
         {
-            _allProblems = new ObservableCollection<StatStatusPairs>(_allProblems.OrderByDescending(x => x.paid_only));
-        }
-        _isOrderedByDescendingPaidOnly = !_isOrderedByDescendingPaidOnly;
-        UpdateDisplayedProblems();
+            _logger.LogError(ex, "Error ordering by paid only");
+        }        
     }
 
     private void OrderByDifficulty()
     {
-        if (_isOrderedByDescendingDifficulty)
+        try
         {
-            _allProblems = new ObservableCollection<StatStatusPairs>(_allProblems.OrderBy(x => x.difficulty.level));
+            _logger.LogInformation("Ordering by difficulty");
+
+            if (_isOrderedByDescendingDifficulty)
+            {
+                _allProblems = new ObservableCollection<StatStatusPairs>(_allProblems.OrderBy(x => x.difficulty.level));
+            }
+            else
+            {
+                _allProblems = new ObservableCollection<StatStatusPairs>(_allProblems.OrderByDescending(x => x.difficulty.level));
+            }
+            _isOrderedByDescendingDifficulty = !_isOrderedByDescendingDifficulty;
+            UpdateDisplayedProblems();
+
+            _logger.LogInformation("Ordered by difficulty successfully");
         }
-        else
+        catch (Exception ex)
         {
-            _allProblems = new ObservableCollection<StatStatusPairs>(_allProblems.OrderByDescending(x => x.difficulty.level));
-        }
-        _isOrderedByDescendingDifficulty = !_isOrderedByDescendingDifficulty;
-        UpdateDisplayedProblems();
+            _logger.LogError(ex, "Error ordering by difficulty");
+        }        
     }
 
     private async Task ListItemClicked(object parameter)
     {
-        if (parameter is StatStatusPairs problem)
+        try
         {
-            SelectedProblem = problem;         
+            _logger.LogInformation("Clicking list item");
 
-            var content = await _leetCodeService.GetDetailsProblemAsync(problem.stat.question__title_slug, _config.LeetCode.session_token, _config.LeetCode.csrf_token);
-
-            if (content.data.question.content == null)
+            if (parameter is StatStatusPairs problem)
             {
-                CurrentViewModel = _enteringPersonalDataViewModel;
-                return;
+                SelectedProblem = problem;
+
+                var content = await _leetCodeService.GetDetailsProblemAsync(problem.stat.question__title_slug, _config.LeetCode.session_token, _config.LeetCode.csrf_token);
+
+                if (content.data.question.content == null)
+                {
+                    CurrentViewModel = _enteringPersonalDataViewModel;
+                    return;
+                }
+
+                _detailsProblemViewModel.HtmlContent = content.data.question.content;
+
+                CurrentViewModel = _detailsProblemViewModel;
             }
 
-            _detailsProblemViewModel.HtmlContent = content.data.question.content;
-
-            CurrentViewModel = _detailsProblemViewModel;
+            _logger.LogInformation("List item clicked successfully");
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error clicking list item");
+        }        
     }
 
     private void UpdateDisplayedProblems()
