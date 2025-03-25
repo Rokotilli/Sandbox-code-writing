@@ -13,8 +13,10 @@
 
     <Grid Background="{DynamicResource BackgroundBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="49*"/>
+            <RowDefinition MinHeight="100"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition MinHeight="100"/>
+            <RowDefinition Height="Auto" MinHeight="50"/>
         </Grid.RowDefinitions>
         <ComboBox
             HorizontalAlignment="Left"
@@ -24,7 +26,7 @@
             Height="22"
             SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}"
             ItemsSource="{Binding Languages}"
-            Grid.RowSpan="2">
+            Grid.Row="0">
 
             <ComboBox.Style>
                 <Style TargetType="ComboBox">
@@ -116,18 +118,13 @@
             </ComboBox.Style>
         </ComboBox>
 
-        <avalonEdit:TextEditor 
-            Name="CodeEditor"
-            Background="{DynamicResource AvalonBackground}"
-            Foreground="{DynamicResource ForegroundBrush}"
-            ShowLineNumbers="True"
-            SyntaxHighlighting="{Binding SyntaxHighlighting}"
-            FontFamily="Consolas"
-            FontSize="14"
-            HorizontalScrollBarVisibility="Auto"
-            VerticalScrollBarVisibility="Auto"
-            Padding="10" Margin="0,13,0,223"
-            helpers:AvalonTextEditorHelper.BindableText="{Binding CodeText, Mode=TwoWay}" Grid.Row="1"/>
+        <Label
+            Content="{Binding Source={StaticResource Loc}, Path=[MemoryLimit]}"
+            HorizontalAlignment="Right"
+            FontFamily="Calibri"
+            FontSize="15"
+            Margin="0,-3,463,0"
+            VerticalAlignment="Top" Grid.Row="0" Height="28" Width="121"/>
 
         <xctk:IntegerUpDown
             Text="{Binding MemoryLimit, Mode=TwoWay}"
@@ -142,7 +139,15 @@
             Margin="0,0,300,0"
             VerticalAlignment="Top"
             Width="158"
-            Height="23" Grid.RowSpan="2"/>
+            Height="23" Grid.Row="0"/>
+
+        <Label
+            Content="{Binding Source={StaticResource Loc}, Path=[TimeLimit]}"
+            HorizontalAlignment="Right"
+            FontFamily="Calibri"
+            FontSize="15"
+            Margin="0,-3,161,0"
+            VerticalAlignment="Top" Grid.Row="0" Height="28" Width="134"/>
 
         <xctk:IntegerUpDown
             Text="{Binding TimeLimit, Mode=TwoWay}"
@@ -156,36 +161,41 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Top" 
             Width="158"
-            Height="22" Grid.RowSpan="2"/>
+            Height="22" Grid.Row="0"/>
 
-        <TextBox
-            Text="{Binding ResultText, Mode=TwoWay}"
-            Margin="0,0,0,79"
-            TextWrapping="Wrap"
-            IsReadOnly="True" Grid.Row="1" Height="102" VerticalAlignment="Bottom"/>
+        <avalonEdit:TextEditor 
+            Name="CodeEditor"
+            Background="{DynamicResource AvalonBackground}"
+            Foreground="{DynamicResource ForegroundBrush}"
+            ShowLineNumbers="True"
+            SyntaxHighlighting="{Binding SyntaxHighlighting}"
+            FontFamily="Consolas"
+            FontSize="14"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto"
+            Padding="10" Margin="0,25,0,1"
+            helpers:AvalonTextEditorHelper.BindableText="{Binding CodeText, Mode=TwoWay}"
+            Grid.Row="0"/>
 
-        <Label
-            Content="{Binding Source={StaticResource Loc}, Path=[MemoryLimit]}"
-            HorizontalAlignment="Right"
-            FontFamily="Calibri"
-            FontSize="15"
-            Margin="0,-3,463,0"
-            VerticalAlignment="Top" Grid.RowSpan="2"/>
-
-        <Label
-            Content="{Binding Source={StaticResource Loc}, Path=[TimeLimit]}"
-            HorizontalAlignment="Right"
-            FontFamily="Calibri"
-            FontSize="15"
-            Margin="0,-3,161,0"
-            VerticalAlignment="Top" Grid.RowSpan="2"/>
+        <GridSplitter Height="2"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Center"
+                      Background="Gray"
+                      ResizeDirection="Rows" Grid.Row="1">
+        </GridSplitter>
 
         <Label
             Content="{Binding Source={StaticResource Loc}, Path=[Result]}" 
             FontFamily="Calibri"
             HorizontalContentAlignment="Center"
             FontSize="20"
-            Margin="0,0,0,187" Grid.Row="1" Height="32" VerticalAlignment="Bottom"/>
+            Margin="0,1,0,0" Grid.Row="2" Height="33" VerticalAlignment="Top"/>
+
+        <TextBox
+            Text="{Binding ResultText, Mode=TwoWay}"
+            Margin="0,34,0,10"
+            TextWrapping="Wrap"
+            IsReadOnly="True" Grid.Row="2"/>
 
         <Button 
             Command="{Binding NavigateToHomeViewCommand}"
@@ -193,7 +203,7 @@
             FontFamily="Calibri"
             Foreground="Black"
             Margin="10,0,0,26"
-            FontSize="20" HorizontalAlignment="Left" Width="172" Height="40" VerticalAlignment="Bottom" Grid.Row="1">
+            FontSize="20" HorizontalAlignment="Left" Width="172" Height="40" VerticalAlignment="Bottom" Grid.Row="3">
 
             <Button.Template>
                 <ControlTemplate TargetType="Button">
@@ -222,7 +232,7 @@
             FontFamily="Calibri"
             Foreground="Black"
             Margin="207,0,0,26"
-            FontSize="20" HorizontalAlignment="Left" Width="172" Height="40" VerticalAlignment="Bottom" Grid.Row="1">
+            FontSize="20" HorizontalAlignment="Left" Width="172" Height="40" VerticalAlignment="Bottom" Grid.Row="3">
 
             <Button.Template>
                 <ControlTemplate TargetType="Button">
@@ -253,7 +263,7 @@
             Margin="0,0,207,26" 
             VerticalAlignment="Bottom"
             Height="40"
-            FontSize="20" Grid.Row="1" HorizontalAlignment="Right" Width="172">
+            FontSize="20" Grid.Row="3" HorizontalAlignment="Right" Width="172">
 
             <Button.Template>
                 <ControlTemplate TargetType="Button">
@@ -286,7 +296,7 @@
             FontFamily="Calibri"
             Foreground="Black"
             Margin="0,0,10,26"
-            FontSize="15" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="189" Grid.Row="1">
+            FontSize="15" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="189" Grid.Row="3">
 
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
