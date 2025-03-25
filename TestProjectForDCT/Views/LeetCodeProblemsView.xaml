@@ -42,8 +42,24 @@
             </Grid.ColumnDefinitions>
 
             <Border BorderBrush="{DynamicResource HeaderBorderBrush}"
-                    BorderThickness="1"
-                    Background="{DynamicResource HeaderBackgroundBrush}">
+                    BorderThickness="1">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Background" Value="{DynamicResource HeaderBackgroundBrush}" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource HeaderHoverBackgroundBrush}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <i:InvokeCommandAction 
+                            Command="{Binding DataContext.OrderCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
+                            CommandParameter="Title" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <TextBlock Text="{Binding Source={StaticResource Loc}, Path=[Title]}"
                            FontFamily="Calibri"
                            FontSize="15"
@@ -55,8 +71,24 @@
 
             <Border Grid.Column="1"
                     BorderBrush="{DynamicResource HeaderBorderBrush}"
-                    BorderThickness="1"
-                    Background="{DynamicResource HeaderBackgroundBrush}">
+                    BorderThickness="1">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Background" Value="{DynamicResource HeaderBackgroundBrush}" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource HeaderHoverBackgroundBrush}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <i:InvokeCommandAction 
+                            Command="{Binding DataContext.OrderCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
+                            CommandParameter="Difficulty" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <TextBlock Text="{Binding Source={StaticResource Loc}, Path=[Difficult]}"
                             FontFamily="Calibri"
                             FontSize="15"
@@ -67,8 +99,24 @@
 
             <Border Grid.Column="2"
                     BorderBrush="{DynamicResource HeaderBorderBrush}"
-                    BorderThickness="1"
-                    Background="{DynamicResource HeaderBackgroundBrush}">
+                    BorderThickness="1">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Background" Value="{DynamicResource HeaderBackgroundBrush}" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource HeaderHoverBackgroundBrush}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <i:InvokeCommandAction 
+                            Command="{Binding DataContext.OrderCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
+                            CommandParameter="PaidOnly" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <TextBlock Text="{Binding Source={StaticResource Loc}, Path=[PaidOnly]}"
                             FontFamily="Calibri"
                             FontSize="15"

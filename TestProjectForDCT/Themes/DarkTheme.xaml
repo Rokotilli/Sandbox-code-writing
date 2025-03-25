@@ -25,6 +25,7 @@
 
     <SolidColorBrush x:Key="HeaderBackgroundBrush" Color="#FF2D2D30"/>
     <SolidColorBrush x:Key="HeaderBorderBrush" Color="#FF3E3E42"/>
+    <SolidColorBrush x:Key="HeaderHoverBackgroundBrush" Color="#333e52"/>
 
     <SolidColorBrush x:Key="ListItemBorderBrush" Color="#FF3E3E42"/>
 
