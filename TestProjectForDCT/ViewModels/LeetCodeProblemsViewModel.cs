@@ -18,9 +18,12 @@ public class LeetCodeProblemsViewModel : BaseViewModel
     private StatStatusPairs _selectedProblem;
     private bool _isNextPageButtonEnabled = false;
     private bool _isPreviousPageButtonEnabled = false;
+    private bool _isOrderedByDescendingTitle = true;
+    private bool _isOrderedByDescendingDifficulty = true;
+    private bool _isOrderedByDescendingPaidOnly = true;
     private int _currentPage = 1;
     private int _itemsPerPage = 10;
-    private int _totalPages;
+    private int _totalPages;    
 
     public ObservableCollection<StatStatusPairs> DisplayedProblems
     {
@@ -97,6 +100,7 @@ public class LeetCodeProblemsViewModel : BaseViewModel
     public ICommand PreviousPageCommand { get; }
     public ICommand ListItemClickedCommand { get; }
     public ICommand CloseCurrentViewModelCommand { get; }
+    public ICommand OrderCommand { get; }
 
     public LeetCodeProblemsViewModel(
         LeetCodeService leetCodeService,
@@ -112,6 +116,7 @@ public class LeetCodeProblemsViewModel : BaseViewModel
         NextPageCommand = new HandleCommand(obj => CurrentPage++);
         PreviousPageCommand = new HandleCommand(obj => CurrentPage--);
         CloseCurrentViewModelCommand = new HandleCommand(obj => CurrentViewModel = null);
+        OrderCommand = new HandleCommand(obj => OrderAllProblems(obj));
         ListItemClickedCommand = new HandleCommand(async obj => await ListItemClicked(obj));
 
         detailsProblemViewModel.NavigateLeetCodeProblemsView = CloseCurrentViewModelCommand;
@@ -129,7 +134,68 @@ public class LeetCodeProblemsViewModel : BaseViewModel
         UpdateDisplayedProblems();
     }
 
-    public async Task ListItemClicked(object parameter)
+    private void OrderAllProblems(object parameter)
+    {
+        if (parameter is string order)
+        {
+            switch (order)
+            {
+                case "Difficulty":
+                    OrderByDifficulty();
+                    break;
+                case "PaidOnly":
+                    OrderByPaidOnly();
+                    break;
+                case "Title":
+                    OrderByTitle();
+                    break;
+            }
+        }        
+    }
+
+    private void OrderByTitle()
+    {
+        if (_isOrderedByDescendingTitle)
+        {
+            _allProblems = new ObservableCollection<StatStatusPairs>(_allProblems.OrderBy(x => x.stat.question__title));
+        }
+        else
+        {
+            _allProblems = new ObservableCollection<StatStatusPairs>(_allProblems.OrderByDescending(x => x.stat.question__title));
+        }
+        _isOrderedByDescendingTitle = !_isOrderedByDescendingTitle;
+        UpdateDisplayedProblems();
+    }
+
+    private void OrderByPaidOnly()
+    {
+        if (_isOrderedByDescendingPaidOnly)
+        {
+            _allProblems = new ObservableCollection<StatStatusPairs>(_allProblems.OrderBy(x => x.paid_only));
+        }
+        else
+        {
+            _allProblems = new ObservableCollection<StatStatusPairs>(_allProblems.OrderByDescending(x => x.paid_only));
+        }
+        _isOrderedByDescendingPaidOnly = !_isOrderedByDescendingPaidOnly;
+        UpdateDisplayedProblems();
+    }
+
+    private void OrderByDifficulty()
+    {
+        if (_isOrderedByDescendingDifficulty)
+        {
+            _allProblems = new ObservableCollection<StatStatusPairs>(_allProblems.OrderBy(x => x.difficulty.level));
+        }
+        else
+        {
+            _allProblems = new ObservableCollection<StatStatusPairs>(_allProblems.OrderByDescending(x => x.difficulty.level));
+        }
+        _isOrderedByDescendingDifficulty = !_isOrderedByDescendingDifficulty;
+        UpdateDisplayedProblems();
+    }
+
+    private async Task ListItemClicked(object parameter)
     {
         if (parameter is StatStatusPairs problem)
         {

@@ -231,4 +231,19 @@
   <data name="URE" xml:space="preserve">
     <value>Невідома помилка виконання.</value>
   </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Так</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Ні</value>
+  </data>
+  <data name="Easy" xml:space="preserve">
+    <value>Легко</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Середньо</value>
+  </data>
+  <data name="Hard" xml:space="preserve">
+    <value>Важко</value>
+  </data>
 </root>

@@ -115,6 +115,15 @@ namespace TestProjectForDCT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Easy.
+        /// </summary>
+        internal static string Easy {
+            get {
+                return ResourceManager.GetString("Easy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to English.
         /// </summary>
         internal static string EnglishLanguageName {
@@ -142,6 +151,15 @@ namespace TestProjectForDCT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hard.
+        /// </summary>
+        internal static string Hard {
+            get {
+                return ResourceManager.GetString("Hard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to LeetCode problems.
         /// </summary>
         internal static string LeetCodeProblems {
@@ -156,6 +174,15 @@ namespace TestProjectForDCT.Resources {
         internal static string LightThemeName {
             get {
                 return ResourceManager.GetString("LightThemeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medium.
+        /// </summary>
+        internal static string Medium {
+            get {
+                return ResourceManager.GetString("Medium", resourceCulture);
             }
         }
         
@@ -183,6 +210,15 @@ namespace TestProjectForDCT.Resources {
         internal static string MLE {
             get {
                 return ResourceManager.GetString("MLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
             }
         }
         
@@ -399,6 +435,15 @@ namespace TestProjectForDCT.Resources {
         internal static string USR {
             get {
                 return ResourceManager.GetString("USR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        internal static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }
