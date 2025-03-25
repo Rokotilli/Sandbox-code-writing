@@ -9,6 +9,8 @@ using System.Xml;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using System.IO;
 using TestProjectForDCT.ViewModels.Core;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace TestProjectForDCT.ViewModels;
 
@@ -230,8 +232,12 @@ public class SandBoxViewModel : BaseViewModel
                 case "AC":
                     resultMessage.AppendLine($"{_localizationManager["MemoryUsed"]}{runStatus.memory_used} bytes");
                     resultMessage.AppendLine($"{_localizationManager["TimeUsed"]}{runStatus.time_used}");
-                    resultMessage.AppendLine($"{_localizationManager["ExitCode"]}{runStatus.exit_code}");
-                    resultMessage.AppendLine($"{_localizationManager["Output"]}{runStatus.output}");
+                    if (runStatus.exit_code == "null") 
+                    {
+                        resultMessage.AppendLine($"{_localizationManager["ExitCode"]}{runStatus.exit_code}");
+                    }
+                    string output = await GetOutputStringFromFile(runStatus.output);
+                    resultMessage.AppendLine($"{_localizationManager["Output"]}\n{output}");
                     break;
 
                 case "MLE":
@@ -256,6 +262,14 @@ public class SandBoxViewModel : BaseViewModel
         catch (Exception ex)
         {
             ResultText = ex.Message;
+        }
+    }
+
+    private async Task<string> GetOutputStringFromFile(string url)
+    {
+        using (HttpClient client = new HttpClient())
+        {
+            return await client.GetStringAsync(url);
         }
     }
 
