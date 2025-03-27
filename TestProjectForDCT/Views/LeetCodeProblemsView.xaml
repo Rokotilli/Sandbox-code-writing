@@ -127,7 +127,6 @@
         </Grid>
 
         <ListBox ItemsSource="{Binding DisplayedProblems}"
-                SelectedItem="{Binding SelectedProblem}"
                 Margin="10,67,10,58"
                 Background="{DynamicResource BackgroundBrush}"
                 HorizontalContentAlignment="Stretch">
