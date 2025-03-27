@@ -9,12 +9,11 @@ using System.Xml;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using System.IO;
 using TestProjectForDCT.ViewModels.Core;
-using System.Net.Http;
 using Microsoft.Extensions.Options;
 using TestProjectForDCT.ViewModels.Core.Interfaces;
 using TestProjectForDCT.Services.Interfaces;
 using Microsoft.Extensions.Logging;
-using System;
+using TestProjectForDCT.Models.HackerearthModels.GenericModels;
 
 namespace TestProjectForDCT.ViewModels;
 
@@ -254,35 +253,7 @@ public class SandBoxViewModel : BaseViewModel, ISandBoxViewModel
                 return;
             }
 
-            switch (runStatus.status)
-            {
-                case "AC":
-                    resultMessage.AppendLine($"{_localizationManager["MemoryUsed"]}{runStatus.memory_used} bytes");
-                    resultMessage.AppendLine($"{_localizationManager["TimeUsed"]}{runStatus.time_used}");
-                    if (runStatus.exit_code == "null") 
-                    {
-                        resultMessage.AppendLine($"{_localizationManager["ExitCode"]}{runStatus.exit_code}");
-                    }
-                    string output = await GetOutputStringFromFile(runStatus.output);
-                    resultMessage.AppendLine($"{_localizationManager["Output"]}\n{output}");
-                    break;
-
-                case "MLE":
-                    resultMessage.AppendLine(_localizationManager["MLE"]);
-                    break;
-
-                case "TLE":
-                    resultMessage.AppendLine(_localizationManager["TLE"]);
-                    break;
-
-                case "RE":
-                    resultMessage.AppendLine(GetRuntimeErrorDescription(runStatus.status_detail));
-                    break;
-
-                default:
-                    resultMessage.AppendLine(_localizationManager["USR"]);
-                    break;
-            }
+            await GetRunStatusDescription(runStatus, resultMessage);
 
             _logger.LogInformation("Code evaluation status checked successfully");
 
@@ -296,27 +267,38 @@ public class SandBoxViewModel : BaseViewModel, ISandBoxViewModel
         }
     }
 
-    private async Task<string> GetOutputStringFromFile(string url)
+    private async Task GetRunStatusDescription(RunStatus runStatus, StringBuilder resultMessage)
     {
-        try
+        switch (runStatus.status)
         {
-            _logger.LogInformation("Getting output string from file");
+            case "AC":
+                resultMessage.AppendLine($"{_localizationManager["MemoryUsed"]}{runStatus.memory_used} bytes");
+                resultMessage.AppendLine($"{_localizationManager["TimeUsed"]}{runStatus.time_used}");
+                if (runStatus.exit_code == "null")
+                {
+                    resultMessage.AppendLine($"{_localizationManager["ExitCode"]}{runStatus.exit_code}");
+                }
+                string output = await _codeEvaluationService.GetOutputStringFromFile(runStatus.output);
+                resultMessage.AppendLine($"{_localizationManager["Output"]}\n{output}");
+                break;
 
-            using (HttpClient client = new HttpClient())
-            {
-                var result = await client.GetStringAsync(url);
+            case "MLE":
+                resultMessage.AppendLine(_localizationManager["MLE"]);
+                break;
 
-                _logger.LogInformation("Output string received successfully");
+            case "TLE":
+                resultMessage.AppendLine(_localizationManager["TLE"]);
+                break;
 
-                return result;
-            }            
+            case "RE":
+                resultMessage.AppendLine(GetRuntimeErrorDescription(runStatus.status_detail));
+                break;
+
+            default:
+                resultMessage.AppendLine(_localizationManager["USR"]);
+                break;
         }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting output string from file");
-            return ex.Message;
-        }        
-    }
+    }    
 
     private string GetRuntimeErrorDescription(string statusDetail)
     {

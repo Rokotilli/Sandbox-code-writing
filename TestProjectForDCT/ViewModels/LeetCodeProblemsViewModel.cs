@@ -20,7 +20,6 @@ public class LeetCodeProblemsViewModel : BaseViewModel, ILeetCodeProblemsViewMod
     private object _currentViewModel;
     private ObservableCollection<StatStatusPairs> _allProblems;
     private ObservableCollection<StatStatusPairs> _displayedProblems;
-    private StatStatusPairs _selectedProblem;
     private bool _isNextPageButtonEnabled = false;
     private bool _isPreviousPageButtonEnabled = false;
     private bool _isOrderedByDescendingTitle = true;
@@ -87,16 +86,6 @@ public class LeetCodeProblemsViewModel : BaseViewModel, ILeetCodeProblemsViewMod
         set
         {
             _currentViewModel = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public StatStatusPairs SelectedProblem
-    {
-        get => _selectedProblem;
-        set
-        {
-            _selectedProblem = value;
             OnPropertyChanged();
         }
     }
@@ -254,8 +243,6 @@ public class LeetCodeProblemsViewModel : BaseViewModel, ILeetCodeProblemsViewMod
 
             if (parameter is StatStatusPairs problem)
             {
-                SelectedProblem = problem;
-
                 var content = await _leetCodeService.GetDetailsProblemAsync(problem.stat.question__title_slug, _config.LeetCode.session_token, _config.LeetCode.csrf_token);
 
                 if (content.data.question.content == null)

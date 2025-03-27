@@ -12,7 +12,6 @@ public interface ILeetCodeProblemsViewModel
     bool IsNextPageButtonEnabled { get; set; }
     bool IsPreviousPageButtonEnabled { get; set; }
     object CurrentViewModel { get; set; }
-    StatStatusPairs SelectedProblem { get; set; }
 
     ICommand NextPageCommand { get; }
     ICommand PreviousPageCommand { get; }

@@ -62,4 +62,24 @@ public class CodeEvaluationService : ICodeEvaluationService
 
         return result;
     }
+
+    public async Task<string> GetOutputStringFromFile(string url)
+    {
+        _logger.LogInformation("Getting output string from file");
+
+        using HttpClient client = new HttpClient();
+            
+        var response = await client.GetAsync(url);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception("Error getting output string from file: " + response.StatusCode);
+        }
+
+        var result = await response.Content.ReadAsStringAsync();
+
+        _logger.LogInformation("Output string received successfully");
+
+        return result;            
+    }
 }
