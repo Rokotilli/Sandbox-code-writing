@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SyntaxDefinition name="C++" extensions=".c;.h;.cc;.cpp;.hpp" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+	<Color name="Comment" foreground="#FF57A64A" />
+	<Color name="String" foreground="#FFD69D85" />
+	<Color name="Character" foreground="#FFE6DB74" />
+	<Color name="Preprocessor" foreground="#FFFF80AB" />
+	<Color name="Keywords" foreground="#FF66D9EF" />
+	<Color name="ControlKeywords" foreground="#FFFF79C6" />
+	<Color name="VisibilityKeywords" foreground="#FFFFB86C" />
+	<Color name="ExceptionKeywords" foreground="#FFFF5555" />
+	<Color name="CastingKeywords" foreground="#FFBD93F9" />
+	<Color name="MemoryKeywords" foreground="#FF8BE9FD" />
+	<Color name="TypeKeywords" foreground="#FF50FA7B" />
+	<Color name="BooleanConstants" foreground="#FFFF5555" />
+
+	<RuleSet ignoreCase="false">		
+		<Span color="Comment" begin="//" end="\n" />
+		<Span color="Comment" multiline="true" begin="/\*" end="\*/" />
+		<Span color="String" begin="&quot;" end="&quot;" />
+		<Span color="Character" begin="'" end="'" />
+		<Span color="Preprocessor" begin="#" end="\s" />
+
+		<Keywords color="ControlKeywords">
+			<Word>if</Word>
+			<Word>else</Word>
+			<Word>switch</Word>
+			<Word>case</Word>
+			<Word>default</Word>
+			<Word>for</Word>
+			<Word>while</Word>
+			<Word>do</Word>
+			<Word>break</Word>
+			<Word>continue</Word>
+			<Word>return</Word>
+			<Word>goto</Word>
+		</Keywords>
+
+		<Keywords color="Keywords">
+			<Word>class</Word>
+			<Word>struct</Word>
+			<Word>union</Word>
+			<Word>namespace</Word>
+			<Word>enum</Word>
+			<Word>template</Word>
+			<Word>typename</Word>
+			<Word>virtual</Word>
+			<Word>override</Word>
+			<Word>final</Word>
+			<Word>explicit</Word>
+			<Word>constexpr</Word>
+			<Word>mutable</Word>
+		</Keywords>
+
+		<Keywords color="VisibilityKeywords">
+			<Word>public</Word>
+			<Word>protected</Word>
+			<Word>private</Word>
+		</Keywords>
+
+		<Keywords color="Keywords">
+			<Word>static</Word>
+			<Word>extern</Word>
+			<Word>auto</Word>
+			<Word>register</Word>
+			<Word>thread_local</Word>
+		</Keywords>
+
+		<Keywords color="ExceptionKeywords">
+			<Word>try</Word>
+			<Word>catch</Word>
+			<Word>throw</Word>
+			<Word>noexcept</Word>
+		</Keywords>
+
+		<Keywords color="TypeKeywords">
+			<Word>void</Word>
+			<Word>bool</Word>
+			<Word>char</Word>
+			<Word>wchar_t</Word>
+			<Word>char16_t</Word>
+			<Word>char32_t</Word>
+			<Word>short</Word>
+			<Word>int</Word>
+			<Word>long</Word>
+			<Word>float</Word>
+			<Word>double</Word>
+			<Word>signed</Word>
+			<Word>unsigned</Word>
+			<Word>size_t</Word>
+			<Word>ptrdiff_t</Word>
+			<Word>string</Word>
+		</Keywords>
+
+		<Keywords color="BooleanConstants">
+			<Word>true</Word>
+			<Word>false</Word>
+			<Word>nullptr</Word>
+		</Keywords>
+
+		<Keywords color="CastingKeywords">
+			<Word>inline</Word>
+			<Word>friend</Word>
+			<Word>typedef</Word>
+			<Word>using</Word>
+			<Word>decltype</Word>
+			<Word>static_cast</Word>
+			<Word>dynamic_cast</Word>
+			<Word>reinterpret_cast</Word>
+			<Word>const_cast</Word>
+			<Word>sizeof</Word>
+			<Word>alignof</Word>
+			<Word>typeid</Word>
+			<Word>operator</Word>
+			<Word>new</Word>
+			<Word>delete</Word>
+			<Word>this</Word>
+			<Word>const</Word>
+			<Word>volatile</Word>
+			<Word>restrict</Word>
+		</Keywords>		
+	</RuleSet>
+</SyntaxDefinition>

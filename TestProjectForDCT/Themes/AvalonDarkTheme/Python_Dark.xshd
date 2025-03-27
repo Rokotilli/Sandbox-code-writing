@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SyntaxDefinition name="Python" extensions=".py" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+	<Color name="Comment" foreground="#FF55FF00" />
+	<Color name="String" foreground="#FFFFEF00" />
+	<Color name="ControlFlow" foreground="#FF0080FF" />
+	<Color name="FunctionDef" foreground="#FFFF6600" />
+	<Color name="ClassDef" foreground="#FF00C0FF" />
+	<Color name="Operators" foreground="#FF0040FF" />
+	<Color name="Builtins" foreground="#FFFF6600" />
+	<Color name="Literals" foreground="#FFFFCF00" />
+
+	<RuleSet ignoreCase="false">
+		<Span color="Comment" begin="#" end="\n" />
+		<Span color="String" begin="&quot;" end="&quot;" />
+		<Span color="String" begin="'" end="'" />
+
+		<Keywords color="ControlFlow">
+			<Word>if</Word>
+			<Word>else</Word>
+			<Word>elif</Word>
+			<Word>while</Word>
+			<Word>for</Word>
+			<Word>break</Word>
+			<Word>continue</Word>
+			<Word>return</Word>
+			<Word>pass</Word>
+			<Word>try</Word>
+			<Word>except</Word>
+			<Word>finally</Word>
+			<Word>raise</Word>
+			<Word>with</Word>
+			<Word>assert</Word>
+			<Word>yield</Word>
+		</Keywords>
+
+		<Keywords color="FunctionDef">
+			<Word>def</Word>
+			<Word>lambda</Word>
+		</Keywords>
+
+		<Keywords color="ClassDef">
+			<Word>class</Word>
+			<Word>object</Word>
+			<Word>int</Word>
+			<Word>float</Word>
+			<Word>str</Word>
+			<Word>list</Word>
+			<Word>dict</Word>
+			<Word>set</Word>
+			<Word>tuple</Word>
+			<Word>bool</Word>
+			<Word>NoneType</Word>
+		</Keywords>
+
+		<Keywords color="Operators">
+			<Word>and</Word>
+			<Word>or</Word>
+			<Word>not</Word>
+			<Word>is</Word>
+			<Word>in</Word>
+			<Word>as</Word>
+			<Word>del</Word>
+			<Word>global</Word>
+			<Word>nonlocal</Word>
+			<Word>from</Word>
+			<Word>import</Word>
+		</Keywords>
+
+		<Keywords color="Builtins">
+			<Word>print</Word>
+			<Word>len</Word>
+			<Word>range</Word>
+			<Word>open</Word>
+			<Word>input</Word>
+			<Word>int</Word>
+			<Word>str</Word>
+			<Word>float</Word>
+			<Word>bool</Word>
+			<Word>list</Word>
+			<Word>dict</Word>
+			<Word>set</Word>
+			<Word>tuple</Word>
+			<Word>enumerate</Word>
+			<Word>zip</Word>
+			<Word>map</Word>
+			<Word>filter</Word>
+			<Word>sorted</Word>
+		</Keywords>
+
+		<Keywords color="Literals">
+			<Word>True</Word>
+			<Word>False</Word>
+			<Word>None</Word>
+		</Keywords>
+	</RuleSet>
+</SyntaxDefinition>

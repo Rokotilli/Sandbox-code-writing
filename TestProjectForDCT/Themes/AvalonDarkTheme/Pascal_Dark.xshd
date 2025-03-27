@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SyntaxDefinition name="Pascal" extensions=".pas;.pp" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+	<Color name="Comment" foreground="#FF57A64A" />
+	<Color name="String" foreground="#FFDAA520" />
+	<Color name="ControlKeywords" foreground="#FFFF6347" />
+	<Color name="DeclarationKeywords" foreground="#FFFFD700" />
+	<Color name="Operators" foreground="#FFFF8C00" />
+	<Color name="TypeKeywords" foreground="#FF7CFC00" />
+	<Color name="BooleanConstants" foreground="#FFFF00FF" />
+	<Color name="StandardProcedures" foreground="#FF9370DB" />
+	<Color name="StandardFunctions" foreground="#FF00FFFF" />
+
+	<RuleSet ignoreCase="true">
+		<Span color="Comment" begin="//" end="\n" />
+		<Span color="Comment" multiline="true" begin="\{" end="\}" />
+		<Span color="Comment" multiline="true" begin="\(\*" end="\*\)" />
+		<Span color="String" begin="'" end="'" />
+
+		<Keywords color="ControlKeywords">
+			<Word>if</Word>
+			<Word>then</Word>
+			<Word>else</Word>
+			<Word>case</Word>
+			<Word>of</Word>
+			<Word>for</Word>
+			<Word>to</Word>
+			<Word>downto</Word>
+			<Word>while</Word>
+			<Word>repeat</Word>
+			<Word>until</Word>
+			<Word>break</Word>
+			<Word>continue</Word>
+			<Word>exit</Word>
+			<Word>goto</Word>
+		</Keywords>
+
+		<Keywords color="DeclarationKeywords">
+			<Word>program</Word>
+			<Word>unit</Word>
+			<Word>uses</Word>
+			<Word>begin</Word>
+			<Word>end</Word>
+			<Word>const</Word>
+			<Word>var</Word>
+			<Word>type</Word>
+			<Word>record</Word>
+			<Word>array</Word>
+			<Word>file</Word>
+			<Word>of</Word>
+			<Word>packed</Word>
+			<Word>label</Word>
+			<Word>procedure</Word>
+			<Word>function</Word>
+			<Word>interface</Word>
+			<Word>implementation</Word>
+			<Word>exports</Word>
+			<Word>external</Word>
+			<Word>forward</Word>
+			<Word>inline</Word>
+		</Keywords>
+
+		<Keywords color="Operators">
+			<Word>and</Word>
+			<Word>or</Word>
+			<Word>not</Word>
+			<Word>xor</Word>
+			<Word>div</Word>
+			<Word>mod</Word>
+			<Word>shl</Word>
+			<Word>shr</Word>
+			<Word>in</Word>
+			<Word>is</Word>
+			<Word>as</Word>
+			<Word>=</Word>
+			<Word>&lt;&gt;</Word>
+			<Word>&lt;</Word>
+			<Word>&gt;</Word>
+			<Word>&lt;=</Word>
+			<Word>&gt;=</Word>
+			<Word>+</Word>
+			<Word>-</Word>
+			<Word>*</Word>
+			<Word>/</Word>
+			<Word>@</Word>
+			<Word>:=</Word>
+		</Keywords>
+
+		<Keywords color="TypeKeywords">
+			<Word>integer</Word>
+			<Word>real</Word>
+			<Word>boolean</Word>
+			<Word>char</Word>
+			<Word>string</Word>
+			<Word>byte</Word>
+			<Word>word</Word>
+			<Word>longint</Word>
+			<Word>shortint</Word>
+			<Word>smallint</Word>
+			<Word>comp</Word>
+			<Word>currency</Word>
+			<Word>single</Word>
+			<Word>double</Word>
+			<Word>extended</Word>
+			<Word>pointer</Word>
+			<Word>pchar</Word>
+			<Word>variant</Word>
+		</Keywords>
+
+		<Keywords color="BooleanConstants">
+			<Word>true</Word>
+			<Word>false</Word>
+			<Word>nil</Word>
+		</Keywords>
+
+		<Keywords color="StandardProcedures">
+			<Word>write</Word>
+			<Word>writeln</Word>
+			<Word>read</Word>
+			<Word>readln</Word>
+			<Word>assign</Word>
+			<Word>rewrite</Word>
+			<Word>reset</Word>
+			<Word>close</Word>
+			<Word>append</Word>
+		</Keywords>
+
+		<Keywords color="StandardFunctions">
+			<Word>abs</Word>
+			<Word>arctan</Word>
+			<Word>cos</Word>
+			<Word>exp</Word>
+			<Word>ln</Word>
+			<Word>sin</Word>
+			<Word>sqr</Word>
+			<Word>sqrt</Word>
+			<Word>succ</Word>
+			<Word>pred</Word>
+			<Word>length</Word>
+			<Word>ord</Word>
+			<Word>chr</Word>
+			<Word>round</Word>
+			<Word>trunc</Word>
+			<Word>upcase</Word>
+			<Word>low</Word>
+			<Word>high</Word>
+			<Word>sizeof</Word>
+		</Keywords>
+	</RuleSet>
+</SyntaxDefinition>

@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="TestProjectForDCT.Views.DetailsProblemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:TestProjectForDCT.Views"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid Background="{DynamicResource BackgroundBrush}">
+        <Button
+            Command="{Binding NavigateLeetCodeProblemsView}"
+            Content="{Binding Source={StaticResource Loc}, Path=[Back]}"
+            FontFamily="Calibri"
+            FontSize="15"
+            Height="30"
+            Width="80"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Margin="10">
+
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{DynamicResource ButtonNormalBackground}" CornerRadius="10" x:Name="border">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                          Content="{TemplateBinding Content}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource ButtonHoverBackground}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource ButtonPressedBackground}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+        <Border
+            x:Name="ContentBorder"
+            Margin="10,50,10,10"
+            BorderThickness="1"
+            BorderBrush="Gray"
+            CornerRadius="8"
+            Background="{DynamicResource BackgroundBrush}"
+            MaxWidth="1000">
+
+            <FlowDocumentScrollViewer
+                Document="{Binding ProblemDescription}"
+                Padding="10"
+                Foreground="{DynamicResource ForegroundBrush}"/>
+            
+        </Border>
+    </Grid>
+</UserControl>

@@ -3,8 +3,25 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:TestProjectForDCT.ViewModels"
+        xmlns:views="clr-namespace:TestProjectForDCT.Views"
         xmlns:local="clr-namespace:TestProjectForDCT"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid/>
+        mc:Ignorable="d"        
+        Title="MainWindow" Height="524" Width="857">
+
+    <Window.Resources>        
+        <DataTemplate DataType="{x:Type vm:HomeViewModel}">
+            <views:HomeView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SandBoxViewModel}">
+            <views:SandBoxView />
+        </DataTemplate>
+    </Window.Resources>
+    <Window.Background>
+        <SolidColorBrush Color="{DynamicResource BackgroundColor}" />
+    </Window.Background>
+
+    <Grid>       
+        <ContentControl Content="{Binding CurrentViewModel}" />
+    </Grid>
 </Window>

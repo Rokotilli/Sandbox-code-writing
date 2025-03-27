@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SyntaxDefinition name="Ruby" extensions=".rb" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+	<Color name="Punctuation"                 foreground="#FF00C0FF" />
+	<Color name="Comment"                     foreground="#FF55FF00" />
+	<Color name="LineComment"                 foreground="#FF00FF00" />
+	<Color name="DocComment"                  foreground="#FFA9DCD9" />
+	<Color name="MultiLineComment"            foreground="#FF55FF00" />
+	<Color name="String"                      foreground="#FFFFEF00" />
+	<Color name="FunctionDefinition"          foreground="#FFFF6600" fontWeight="bold" />
+	<Color name="ExceptionHandlingStatements" foreground="#FF0040FF" fontWeight="bold" />
+	<Color name="Imports"                     foreground="#FF008fe4" fontWeight="bold" />
+	<Color name="IterationStatements"         foreground="#FF00C0FF" fontWeight="bold" />
+	<Color name="JumpStatements"              foreground="#FF00E0FF" />
+	<Color name="OperatorStatements"          foreground="#FF00A0FF" fontWeight="bold" />
+	<Color name="NullStatement"               foreground="#FF00C0FF" fontWeight="bold" />
+	<Color name="SelectionStatements"         foreground="#FF1550FF" fontWeight="bold" />
+	<Color name="BooleanStatements"           foreground="#FF1570FF" />
+	<Color name="DefinedStatement"            foreground="#FF1590FF" />
+	<Color name="ClassSelfStatement"          foreground="DarkViolet" />
+	<Color name="ClassInheritanceStatement"   foreground="DarkViolet" />
+	<Color name="BuiltInStatements"           foreground="#FF0080FF" fontWeight="bold" />
+	<Color name="ClassStatement"              foreground="#FF0060FF" fontWeight="bold" />
+	<Color name="CommentMarkerSetTodo"        foreground="#FFFF8080" fontWeight="bold"/>
+	<Color name="CommentMarkerSetHackUndone"  foreground="#FFFF6060" fontWeight="bold"/>
+
+	<RuleSet ignoreCase="false">
+		<Span color="LineComment" begin="#" end="\n" />
+		<Span color="DocComment" begin="=begin" end="=end" />
+		<Span color="MultiLineComment" begin="#{" end="}#" />
+		<Span color="String" begin="&quot;" end="&quot;" />
+		<Span color="String" begin="'" end="'" />
+		<Span color="CommentMarkerSetTodo" begin="#TODO" end="\n" />
+		<Span color="CommentMarkerSetHackUndone" begin="#HACK" end="\n" />
+
+		<Keywords color="Punctuation">
+			<Word>(</Word>
+			<Word>)</Word>
+			<Word>{</Word>
+			<Word>}</Word>
+			<Word>[</Word>
+			<Word>]</Word>
+			<Word>,</Word>
+			<Word>.</Word>
+			<Word>:</Word>
+			<Word>;</Word>
+		</Keywords>
+
+		<Keywords color="SelectionStatements">
+			<Word>if</Word>
+			<Word>elsif</Word>
+			<Word>else</Word>
+			<Word>case</Word>
+			<Word>when</Word>
+			<Word>unless</Word>
+		</Keywords>
+
+		<Keywords color="IterationStatements">
+			<Word>while</Word>
+			<Word>until</Word>
+			<Word>for</Word>
+			<Word>loop</Word>
+			<Word>each</Word>
+		</Keywords>
+
+		<Keywords color="JumpStatements">
+			<Word>break</Word>
+			<Word>next</Word>
+			<Word>redo</Word>
+			<Word>retry</Word>
+			<Word>return</Word>
+		</Keywords>
+
+		<Keywords color="ExceptionHandlingStatements">
+			<Word>begin</Word>
+			<Word>rescue</Word>
+			<Word>ensure</Word>
+			<Word>raise</Word>
+		</Keywords>
+
+		<Keywords color="OperatorStatements">
+			<Word>and</Word>
+			<Word>or</Word>
+			<Word>not</Word>
+			<Word>in</Word>
+		</Keywords>
+
+		<Keywords color="NullStatement">
+			<Word>nil</Word>
+		</Keywords>
+
+		<Keywords color="BooleanStatements">
+			<Word>true</Word>
+			<Word>false</Word>
+		</Keywords>
+
+		<Keywords color="DefinedStatement">
+			<Word>defined?</Word>
+		</Keywords>
+
+		<Keywords color="ClassStatement">
+			<Word>class</Word>
+			<Word>module</Word>
+		</Keywords>
+
+		<Keywords color="ClassSelfStatement">
+			<Word>self</Word>
+			<Word>super</Word>
+		</Keywords>
+
+		<Keywords color="ClassInheritanceStatement">
+			<Word>inherits</Word>
+		</Keywords>
+
+		<Keywords color="Imports">
+			<Word>require</Word>
+			<Word>include</Word>
+			<Word>extend</Word>
+		</Keywords>
+
+		<Keywords color="BuiltInStatements">
+			<Word>puts</Word>
+			<Word>gets</Word>
+			<Word>print</Word>
+			<Word>chomp</Word>
+			<Word>to_s</Word>
+			<Word>to_i</Word>
+			<Word>to_f</Word>
+		</Keywords>
+
+		<Keywords color="FunctionDefinition">
+			<Word>def</Word>
+			<Word>alias</Word>
+			<Word>undef</Word>
+		</Keywords>		
+	</RuleSet>
+</SyntaxDefinition>

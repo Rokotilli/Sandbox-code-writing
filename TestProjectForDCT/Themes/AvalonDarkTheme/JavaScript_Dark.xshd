@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SyntaxDefinition name="JavaScript" extensions=".js;.mjs" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+	<Color name="Comment" foreground="#FF57A64A" />
+	<Color name="String" foreground="#FFDAA520" />
+	<Color name="TemplateString" foreground="#FFB8860B" />
+	<Color name="Number" foreground="#FF00CED1" />
+	<Color name="RegExp" foreground="#FF20B2AA" />
+	<Color name="ControlKeywords" foreground="#FFFF6347" />
+	<Color name="DeclarationKeywords" foreground="#FFFFD700" />
+	<Color name="Operators" foreground="#FFFF8C00" />
+	<Color name="TypeKeywords" foreground="#FF7CFC00" />
+	<Color name="BooleanConstants" foreground="#FFFF00FF" />
+	<Color name="GlobalObjects" foreground="#FF00FFFF" />
+	<Color name="Functions" foreground="#FF9370DB" />
+
+	<RuleSet ignoreCase="false">
+		<Span color="Comment" begin="//" end="\n" />
+		<Span color="Comment" multiline="true" begin="/\*" end="\*/" />
+		<Span color="String" begin="&quot;" end="&quot;" />
+		<Span color="String" begin="'" end="'" />
+		<Span color="TemplateString" begin="`" end="`" />
+		<Span color="RegExp" begin="/" end="/[gimuy]*" />
+
+		<Keywords color="ControlKeywords">
+			<Word>if</Word>
+			<Word>else</Word>
+			<Word>switch</Word>
+			<Word>case</Word>
+			<Word>default</Word>
+			<Word>for</Word>
+			<Word>while</Word>
+			<Word>do</Word>
+			<Word>break</Word>
+			<Word>continue</Word>
+			<Word>return</Word>
+			<Word>try</Word>
+			<Word>catch</Word>
+			<Word>finally</Word>
+			<Word>throw</Word>
+		</Keywords>
+
+		<Keywords color="DeclarationKeywords">
+			<Word>var</Word>
+			<Word>let</Word>
+			<Word>const</Word>
+			<Word>function</Word>
+			<Word>class</Word>
+			<Word>extends</Word>
+			<Word>import</Word>
+			<Word>export</Word>
+			<Word>from</Word>
+			<Word>as</Word>
+			<Word>super</Word>
+			<Word>new</Word>
+			<Word>delete</Word>
+			<Word>in</Word>
+			<Word>instanceof</Word>
+			<Word>typeof</Word>
+			<Word>void</Word>
+			<Word>yield</Word>
+			<Word>await</Word>
+		</Keywords>
+
+		<Keywords color="Operators">
+			<Word>+</Word>
+			<Word>-</Word>
+			<Word>*</Word>
+			<Word>/</Word>
+			<Word>%</Word>
+			<Word>++</Word>
+			<Word>--</Word>
+			<Word>==</Word>
+			<Word>!=</Word>
+			<Word>===</Word>
+			<Word>!==</Word>
+			<Word>&gt;</Word>
+			<Word>&lt;</Word>
+			<Word>&gt;=</Word>
+			<Word>&lt;=</Word>
+			<Word>&amp;&amp;</Word>
+			<Word>||</Word>
+			<Word>!</Word>
+			<Word>=</Word>
+			<Word>+=</Word>
+			<Word>-=</Word>
+			<Word>*=</Word>
+			<Word>/=</Word>
+			<Word>%=</Word>
+			<Word>&amp;=</Word>
+			<Word>|=</Word>
+			<Word>^=</Word>
+		</Keywords>
+
+		<Keywords color="TypeKeywords">
+			<Word>Number</Word>
+			<Word>String</Word>
+			<Word>Boolean</Word>
+			<Word>Symbol</Word>
+			<Word>BigInt</Word>
+			<Word>Object</Word>
+			<Word>Array</Word>
+			<Word>Function</Word>
+			<Word>Date</Word>
+			<Word>RegExp</Word>
+			<Word>Error</Word>
+			<Word>Map</Word>
+			<Word>Set</Word>
+			<Word>WeakMap</Word>
+			<Word>WeakSet</Word>
+			<Word>Promise</Word>
+		</Keywords>
+
+		<Keywords color="BooleanConstants">
+			<Word>true</Word>
+			<Word>false</Word>
+			<Word>null</Word>
+			<Word>undefined</Word>
+			<Word>NaN</Word>
+			<Word>Infinity</Word>
+		</Keywords>
+
+		<Keywords color="GlobalObjects">
+			<Word>window</Word>
+			<Word>document</Word>
+			<Word>console</Word>
+			<Word>Math</Word>
+			<Word>JSON</Word>
+			<Word>Reflect</Word>
+			<Word>Intl</Word>
+			<Word>arguments</Word>
+			<Word>this</Word>
+		</Keywords>
+
+		<Keywords color="Functions">
+			<Word>parseInt</Word>
+			<Word>parseFloat</Word>
+			<Word>isNaN</Word>
+			<Word>isFinite</Word>
+			<Word>eval</Word>
+			<Word>setTimeout</Word>
+			<Word>setInterval</Word>
+			<Word>clearTimeout</Word>
+			<Word>clearInterval</Word>
+			<Word>require</Word>
+		</Keywords>
+	</RuleSet>
+</SyntaxDefinition>
