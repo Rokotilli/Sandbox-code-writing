@@ -1,6 +1,6 @@
-# Digital Cloud Technologies - .NET Developer Test Assignment
+# Sandbox code writing - .NET Developer Test Assignment
 
-This repository contains the solution for the .NET Developer Test Assignment for Digital Cloud Technologies. The goal of the task was to create a sandbox program that solves programming problems using the C# language, the .NET platform, and UWP/WPF/WinUI3 technologies.
+This repository contains the solution for the .NET Developer Test Assignment. The goal of the task was to create a sandbox program that solves programming problems using the C# language, the .NET platform, and UWP/WPF/WinUI3 technologies.
 
 ## Features Implemented
 
@@ -8,7 +8,7 @@ This repository contains the solution for the .NET Developer Test Assignment for
   
 - **Code Editor**: 
   - A functional code editor where users can input their code.
-  - Support for switching between multiple programming languages (C#, Java, JavaScript, Pascal, PHP, Python, Ruby).
+  - Support for switching between multiple programming languages (C#, Java, JavaScript, Pascal, PHP, Python, Ruby, etc.).
   - Memory limit and runtime limit settings.
   - Display of progress during code compilation and execution, showing the status and result (output or error).
 
