@@ -1,0 +1,13 @@
+﻿<Application x:Class="SandboxTestProject.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:SandboxTestProject.ViewModels.Core">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/LightTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <ObjectDataProvider x:Key="Loc" ObjectType="{x:Type local:LocalizationManager}" MethodName="GetInstance" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
